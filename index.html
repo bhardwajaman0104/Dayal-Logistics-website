@@ -1,0 +1,3777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dayal Logistics | India's Automobile Logistics Backbone</title>
+    <link rel="icon" type="image/png" href="dayal_logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+
+    <!-- CSS -->
+    <style>
+        /* CSS Variables & Theming */
+        :root {
+            /* Dark Theme (Default) - Graphite + Oxide Red */
+            --bg: #0B0E12;
+            --surface: #12161C;
+            --surface-2: #171C23;
+            --text: #EEF2F6;
+            --text-muted: #96A1AF;
+            --border: #27303A;
+            --accent: #D75A4A;
+            --accent-rgb: 215, 90, 74;
+            --accent-hover: #E46C5D;
+            --accent-soft: #2A1715;
+            --navy: #3D5678;
+            --gold: #D4A84C;
+            --nav-bg: rgba(11, 14, 18, 0.85);
+
+            /* Typography */
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'Instrument Sans', sans-serif;
+
+            /* Layout */
+            --container-padding: clamp(1.5rem, 5vw, 4rem);
+            --container-max: 1600px;
+            --header-height: 90px;
+
+            /* Animation */
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+            /* Image Sources (Primary: Remote for Portability, Fallback: Local) */
+            --hero-bg-url: url('https://images.pexels.com/photos/11491714/pexels-photo-11491714.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            --about-bg-url: url('https://images.pexels.com/photos/36028615/pexels-photo-36028615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+        }
+
+        [data-theme="light"] {
+            /* Light Theme - Graphite + Oxide Red */
+            --bg: #F4F1EC;
+            --surface: #FFFFFF;
+            --surface-2: #ECE7E1;
+            --text: #11151B;
+            --text-muted: #5A6572;
+            --border: #D8D2CA;
+            --accent: #B54032;
+            --accent-rgb: 181, 64, 50;
+            --accent-hover: #982F23;
+            --accent-soft: #F5E3DF;
+            --navy: #23344D;
+            --gold: #B28A3E;
+            --nav-bg: rgba(244, 241, 236, 0.85);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            display: none;
+        }
+
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            display: none;
+        }
+
+        /* Section Reveals */
+        .reveal-hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s var(--transition), transform 1s var(--transition);
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (pointer: fine) {
+
+            .cursor-dot,
+            .cursor-outline {
+                display: block;
+            }
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 10001;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preloader-brand {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .preloader-brand span {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        .preloader-bar-bg {
+            width: 200px;
+            height: 1px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preloader-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+        }
+
+        /* Advanced Preloader SVG */
+        .preloader-route {
+            width: 450px;
+            height: 250px;
+            overflow: visible;
+            margin-top: 2rem;
+        }
+
+        .route-path {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.3;
+        }
+
+        .route-path-active {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .map-pin {
+            fill: var(--navy);
+            /* Google Maps Blue-ish */
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .pin-text {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 800;
+            fill: #fff;
+            text-anchor: middle;
+        }
+
+        .truck-icon-container {
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .truck-icon {
+            fill: var(--text);
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .point-label {
+            font-size: 10px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            fill: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            transition: background var(--transition), border-bottom var(--transition), height var(--transition);
+        }
+
+        header.scrolled {
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            height: 70px;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            z-index: 10;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--border);
+            transform: rotate(15deg);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: opacity 0.3s;
+        }
+
+        .icon-sun {
+            display: none;
+        }
+
+        [data-theme="light"] .icon-moon {
+            display: none;
+        }
+
+        [data-theme="light"] .icon-sun {
+            display: block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.25);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: var(--header-height);
+            overflow: hidden;
+        }
+
+        /* Background Elements */
+        .hero-bg {
+            position: absolute;
+            inset: -5%;
+            /* For parallax */
+            z-index: -1;
+            background: linear-gradient(to bottom, rgba(11, 14, 18, 0.4), rgba(11, 14, 18, 0.7)), var(--hero-bg-url) center/cover no-repeat;
+            background-color: var(--surface);
+        }
+
+        [data-theme="light"] .hero-bg {
+            background: linear-gradient(to bottom, rgba(244, 241, 236, 0.4), rgba(244, 241, 236, 0.7)), var(--hero-bg-url) center/cover no-repeat;
+            background-color: var(--surface);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 100px 100px;
+            background-position: center center;
+            opacity: 0.5;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        }
+
+        .hero-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(8px);
+            align-self: flex-start;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            max-width: 1100px;
+        }
+
+        .hero-title .line-wrap {
+            display: block;
+            overflow: hidden;
+            padding-bottom: 0.1em;
+        }
+
+        .title-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+        }
+
+        [data-theme="light"] .title-outline {
+            -webkit-text-stroke: 1.5px var(--text);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 3.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+
+
+        /* Floating Stat Card */
+        .stat-card {
+            position: absolute;
+            right: var(--container-padding);
+            top: 45%;
+            transform: translateY(-50%);
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 20px;
+            width: 280px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            z-index: 5;
+        }
+
+        [data-theme="light"] .stat-card {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(var(--accent-rgb), 0.1);
+            color: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
+        }
+
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .stat-value {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Trusted Brands Strip */
+        .brands-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .brands-inner {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .brands-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-right: 3rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .brands-scroll {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+        }
+
+        .brands-track {
+            display: flex;
+            gap: 5rem;
+            align-items: center;
+            animation: scrollBrands 30s linear infinite;
+        }
+
+        .brand-item {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+
+        .brand-item:hover {
+            opacity: 1;
+        }
+
+        @keyframes scrollBrands {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+
+            /* Works if we duplicate content */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .stat-card {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin-top: 4rem;
+                margin-bottom: 2rem;
+                box-shadow: none;
+                background: transparent;
+                padding: 0;
+                border: none;
+                width: auto;
+                backdrop-filter: none;
+            }
+
+            .hero-content {
+                padding-bottom: 6rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            :root {
+                --container-padding: 1.5rem;
+            }
+
+            section {
+                padding: 5rem 0;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-actions .btn-primary {
+                display: none;
+            }
+
+            .brands-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+
+            .brands-title {
+                margin-right: 0;
+            }
+
+            .about-grid, .leadership-grid, .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .summary-val {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                margin-top: 1rem;
+                font-size: clamp(2rem, 10vw, 3.5rem);
+                line-height: 1.1;
+            }
+
+            .hero-subtitle {
+                margin-bottom: 2.5rem;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .btn-primary {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .infra-card {
+                grid-template-columns: 1fr;
+                padding: 1.2rem;
+            }
+
+            .infra-oem {
+                font-size: 1.1rem;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 0.5rem;
+            }
+
+            .timeline-progress-line {
+                left: 0;
+                transform: none;
+            }
+
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10002;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .mm-close {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+        }
+
+        .mm-close svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .mm-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mm-links a {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        /* Accessibility: Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            ::before,
+            ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .cursor-dot,
+            .cursor-outline {
+                display: none !important;
+            }
+        }
+
+        /* --- SECTION BASE --- */
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .gold-glow-title {
+            color: var(--gold) !important;
+            text-shadow: 0 0 20px rgba(212, 168, 76, 0.5);
+            letter-spacing: 0.05em;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .about-pillars {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .pillar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .pillar-card:hover {
+            background: var(--border);
+            transform: translateY(-5px);
+        }
+
+        .pillar-icon {
+            color: var(--accent);
+        }
+
+        .pillar-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .pillar-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 120%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--border);
+        }
+
+        .about-image {
+            position: absolute;
+            inset: 0;
+            background: var(--about-bg-url) center/cover no-repeat;
+            transition: transform 0.8s;
+        }
+
+        .about-image-wrapper:hover .about-image {
+            transform: scale(1.05);
+        }
+
+        /* --- LEADERSHIP SECTION --- */
+
+
+        .leadership {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+        }
+
+        .lead-primary {
+            position: sticky;
+            top: 120px;
+        }
+
+        .lead-card-large {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .lead-img-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, var(--border), transparent);
+            position: relative;
+        }
+
+        .lead-img-placeholder::after {
+            content: 'RK';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--border);
+            opacity: 0.5;
+        }
+
+        .lead-info {
+            padding: 2rem;
+        }
+
+        .lead-name {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .lead-title {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .lead-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .lead-secondary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .lead-card-small {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: border-color 0.3s;
+        }
+
+        .lead-card-small:hover {
+            border-color: var(--accent);
+        }
+
+        .lead-small-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .lead-small-title {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .dept-heads {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+        }
+
+        .dept-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .dept-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dept-tag {
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .support-line {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(var(--accent-rgb), 0.05);
+            border: 1px solid rgba(var(--accent-rgb), 0.2);
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .service-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 120px;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        [data-theme="light"] .service-panel {
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+            background: var(--bg);
+        }
+
+        /* Stacking offsets */
+        .service-panel:nth-child(1) {
+            top: 120px;
+            z-index: 1;
+        }
+
+        .service-panel:nth-child(2) {
+            top: 140px;
+            z-index: 2;
+        }
+
+        .service-panel:nth-child(3) {
+            top: 160px;
+            z-index: 3;
+        }
+
+        .service-panel:nth-child(4) {
+            top: 180px;
+            z-index: 4;
+        }
+
+        .service-panel:nth-child(5) {
+            top: 200px;
+            z-index: 5;
+        }
+
+        .service-content {
+            max-width: 600px;
+        }
+
+        .service-num {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border);
+            line-height: 1;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        [data-theme="light"] .service-num {
+            -webkit-text-stroke: 1.5px var(--border);
+        }
+
+        .service-panel:hover .service-num {
+            -webkit-text-stroke: 1px var(--accent);
+            color: rgba(var(--accent-rgb), 0.1);
+        }
+
+        .service-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .service-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .service-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .service-tag {
+            padding: 0.4rem 0.8rem;
+            background: rgba(var(--accent-rgb), 0.1);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .service-visual {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .service-visual::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 1px dashed var(--border);
+            animation: rotate 20s linear infinite;
+        }
+
+        .service-visual svg {
+            width: 40px;
+            height: 40px;
+            fill: currentColor;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive Updates */
+        @media (max-width: 992px) {
+
+            .about-grid,
+            .leadership-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lead-primary {
+                position: relative;
+                top: 0;
+            }
+
+            .service-panel {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+                padding: 2rem;
+                position: relative;
+                top: 0 !important;
+                box-shadow: none;
+            }
+
+            .service-visual {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .about-pillars,
+            .lead-secondary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- NETWORK SECTION --- */
+        .network {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .locations-wrapper {
+            position: relative;
+        }
+
+        .locations-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--border);
+        }
+
+        .locations-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .locations-list::-webkit-scrollbar-track {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .locations-list::-webkit-scrollbar-thumb {
+            background-color: var(--accent);
+            border-radius: 4px;
+        }
+
+        .loc-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .loc-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .loc-card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .loc-hq {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .loc-name {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hq-badge {
+            font-size: 0.7rem;
+            font-family: var(--font-body);
+            background: var(--accent);
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .loc-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .loc-link {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: auto;
+        }
+
+        .loc-link svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            transition: transform 0.3s;
+        }
+
+        .loc-card:hover .loc-link svg {
+            transform: translateX(3px) translateY(-3px);
+        }
+
+        .map-wrapper {
+            position: sticky;
+            top: 120px;
+            height: 600px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        /* Stylized SVG Map Base */
+        .india-map {
+            width: 100%;
+            height: 100%;
+            fill: var(--surface);
+            stroke: var(--border);
+            stroke-width: 1.5;
+            transition: fill 0.3s, stroke 0.3s;
+        }
+
+        .map-point {
+            fill: var(--accent);
+            stroke: var(--bg);
+            stroke-width: 2;
+            r: 6;
+            transition: r 0.3s, filter 0.3s;
+            cursor: pointer;
+        }
+
+        .map-point:hover,
+        .map-point.active {
+            r: 10;
+            filter: drop-shadow(0 0 8px var(--accent));
+        }
+
+        .map-point-hq {
+            fill: #fff;
+            stroke: var(--accent);
+            stroke-width: 3;
+            r: 8;
+            animation: hqPulse 2s infinite;
+        }
+
+        @keyframes hqPulse {
+            0% {
+                filter: drop-shadow(0 0 0 rgba(var(--accent-rgb), 0.8));
+            }
+
+            70% {
+                filter: drop-shadow(0 0 15px rgba(var(--accent-rgb), 0));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 0 rgba(var(--accent-rgb), 0));
+            }
+        }
+
+        /* --- PARTNERS SECTION --- */
+        .partners-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .partners-header .section-title {
+            margin-bottom: 1rem;
+        }
+
+        .featured-partners {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .partner-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .partner-logo-img {
+            max-height: 80px;
+            max-width: 80%;
+            margin-bottom: 2rem;
+            filter: grayscale(1) brightness(1.5);
+            opacity: 0.8;
+            transition: all 0.4s;
+        }
+
+        [data-theme="light"] .partner-logo-img {
+            filter: grayscale(1) contrast(0.5);
+        }
+
+        .partner-card:hover .partner-logo-img {
+            filter: grayscale(0) brightness(1);
+            opacity: 1;
+        }
+
+        .partner-stat-pill {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(var(--accent-rgb), 0.05);
+            border: 1px solid rgba(var(--accent-rgb), 0.1);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .partner-marquee-wrap {
+            position: relative;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            overflow: hidden;
+            /* Hardware acceleration to prevent shaking */
+            will-change: transform;
+        }
+
+        .partner-marquee {
+            display: flex;
+            gap: 8rem;
+            align-items: center;
+            width: max-content;
+            animation: marqueeScroll 40s linear infinite;
+            /* Prevent jitter */
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .pm-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+            /* Rigid width to prevent shaking when images switch */
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .pm-logo {
+            height: 50px;
+            width: auto;
+            max-width: 130px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(1.2);
+            opacity: 0.8;
+            transition: all 0.4s;
+            /* Prevent layout shifts */
+            aspect-ratio: 3/2;
+            flex-shrink: 0;
+        }
+
+        .pm-logo:hover {
+            filter: grayscale(0) brightness(1);
+            opacity: 1;
+        }
+
+        .pm-text {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-50% - 4rem));
+            }
+        }
+
+        /* Testimonial Author Logo */
+        .testimonial-author-wrap {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .testimonial-author-logo {
+            height: 20px;
+            filter: grayscale(1) brightness(1.2);
+        }
+
+        .testimonial-author {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* --- INFRASTRUCTURE SECTION --- */
+        .infra-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 5rem;
+        }
+
+        .infra-data-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .infra-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: start;
+            gap: 2rem;
+            transition: border-color 0.3s;
+        }
+
+        .infra-card:hover {
+            border-color: var(--accent);
+        }
+
+        .infra-oem {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .infra-locs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .infra-loc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .infra-loc-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .infra-city {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .infra-stats {
+            display: flex;
+            gap: 1.5rem;
+            text-align: right;
+        }
+
+        .infra-stat-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .infra-stat-val {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .infra-stat-lbl {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .infra-summary-panel {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            position: sticky;
+            top: 120px;
+        }
+
+        .summary-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .summary-item {
+            margin-bottom: 2.5rem;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-val {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--text);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-lbl {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive updates */
+        @media (max-width: 992px) {
+
+            .network-grid,
+            .infra-grid,
+            .featured-partners {
+                grid-template-columns: 1fr;
+            }
+
+            .map-wrapper,
+            .infra-summary-panel {
+                position: relative;
+                top: 0;
+            }
+
+            .map-wrapper {
+                height: 400px;
+            }
+
+            .locations-list {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .locations-list {
+                grid-template-columns: 1fr;
+            }
+
+            .infra-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .infra-loc-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .infra-stats {
+                text-align: left;
+                justify-content: flex-start;
+                width: 100%;
+                border-top: 1px dashed var(--border);
+                padding-top: 0.5rem;
+            }
+        }
+
+        /* --- ACHIEVEMENTS SECTION --- */
+        .achievements {
+            background: var(--bg);
+            position: relative;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 5rem;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--border);
+            transform: translateX(-50%);
+            opacity: 0.3;
+        }
+
+        .timeline-progress-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 0; /* Animated */
+            background: linear-gradient(to bottom, var(--gold), var(--accent));
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(212, 168, 76, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
+            padding: 0 3rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--border); /* Initial state */
+            border-radius: 50%;
+            z-index: 2;
+            transition: background 0.4s, transform 0.4s, box-shadow 0.4s;
+        }
+
+        .timeline-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+            box-shadow: 0 0 0 4px var(--bg), 0 0 15px rgba(212, 168, 76, 0.6);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -8px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -8px;
+        }
+
+        .timeline-year {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(212, 168, 76, 0.5);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .timeline-content {
+            font-size: 1.1rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .timeline-client {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(212, 168, 76, 0.1);
+        }
+
+        .testimonial-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(212, 168, 76, 0.5);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-family: var(--font-heading);
+            font-size: 6rem;
+            color: var(--border);
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 8rem 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .contact-info-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .contact-details {
+            margin-bottom: 3rem;
+        }
+
+        .contact-detail-item {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .cd-icon {
+            color: var(--accent);
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .cd-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .cd-text {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .cd-text strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-form {
+            background: var(--bg);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--bg);
+            border-top: 1px solid var(--accent);
+            padding: 4rem 0 2rem;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-meta {
+            display: flex;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 2rem;
+                padding-right: 0;
+                text-align: left !important;
+            }
+
+            .timeline-item:nth-child(even),
+            .timeline-item:nth-child(odd) {
+                left: 0;
+            }
+
+            .timeline-item:nth-child(even) .timeline-dot,
+            .timeline-item:nth-child(odd) .timeline-dot {
+                left: -8px;
+                right: auto;
+            }
+
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu">
+        <div class="mm-header">
+            <a href="#" class="logo">Dayal Logistics <span class="logo-dot"></span></a>
+            <button class="mm-close" aria-label="Close Menu">
+                <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+        <nav class="mm-links">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#network">Network</a>
+            <a href="#fleet">Fleet</a>
+            <a href="#infrastructure">Infrastructure</a>
+            <a href="#contact" class="btn-primary" style="margin-top: 2rem;">Get In Touch</a>
+        </nav>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-brand">
+            <span class="brand-text">DAYAL LOGISTICS</span>
+        </div>
+
+        <svg class="preloader-route" viewBox="0 0 400 300">
+            <!-- Organic Road Path based on User Image -->
+            <path id="mainPath" class="route-path"
+                d="M50,60 L100,65 C120,65 140,60 150,60 L155,100 C155,120 165,150 180,180 L200,210 L220,230 L250,210 L280,225 L320,240 L350,230" />
+
+            <!-- Animated Active Road -->
+            <path id="activePath" class="route-path-active"
+                d="M50,60 L100,65 C120,65 140,60 150,60 L155,100 C155,120 165,150 180,180 L200,210 L220,230 L250,210 L280,225 L320,240 L350,230" />
+
+            <!-- Pin A -->
+            <g id="pinA" transform="translate(50, 60)">
+                <path class="map-pin"
+                    d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
+                <text y="-20" class="pin-text">A</text>
+            </g>
+
+            <!-- Pin B -->
+            <g id="pinB" transform="translate(350, 230)">
+                <path class="map-pin"
+                    d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
+                <text y="-20" class="pin-text">B</text>
+            </g>
+
+            <!-- Moving Truck Group -->
+            <g id="truckGroup" class="truck-icon-container">
+                <rect x="-14" y="-7" width="20" height="11" rx="1" fill="var(--accent)" />
+                <path d="M6,-7 L14,-2 L14,4 L6,4 Z" fill="var(--accent)" />
+                <path d="M7,-5 L12,-2 L12,2 L7,2 Z" fill="rgba(255,255,255,0.4)" />
+                <circle cx="-8" cy="6" r="3" fill="#000" />
+                <circle cx="8" cy="6" r="3" fill="#000" />
+            </g>
+        </svg>
+
+        <div class="preloader-bar-bg" style="display:none;">
+            <div class="preloader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header>
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                Dayal Logistics <span class="logo-dot"></span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#network">Network</a>
+                <a href="#fleet">Fleet</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle Theme">
+                    <!-- Sun Icon (for Dark Theme -> Light) -->
+                    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z">
+                        </path>
+                    </svg>
+                    <!-- Moon Icon (for Light Theme -> Dark) -->
+                    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.7302 13.1953 21.9961 11.8964C21.3283 16.4862 17.3917 20 12.6 20C7.29807 20 3 15.7019 3 10.4C3 6.13459 5.81156 2.5222 9.74235 1.34812C9.91039 3.14925 10 4.9922 10 7ZM12.6 22C19.0066 22 24.2 16.8066 24.2 10.4C24.2 8.71887 23.8427 7.12071 23.2082 5.68887C22.6106 5.37895 21.961 5.2 21.2828 5.2C17.0709 5.2 13.6566 8.6143 13.6566 12.8262C13.6566 15.0116 14.5768 16.9856 16.0592 18.3648C15.0347 18.7845 13.8821 19.0152 12.6828 19.0152C7.94056 19.0152 4.09673 15.1714 4.09673 10.4292C4.09673 6.6433 6.54516 3.42838 10.0211 2.29341C8.75169 1.13968 7.04257 0.429199 5.18281 0.429199C2.32049 0.429199 0 2.74968 0 5.612C0 14.6629 7.33705 22 16.388 22C17.7475 22 19.068 21.8341 20.3288 21.5298C18.1065 23.0766 15.4414 24 12.6 24C6.1934 24 1 18.8066 1 12.4C1 9.38466 2.14819 6.63737 4.01518 4.57723C4.54228 9.37978 8.60835 13.2 13.6 13.2C15.9388 13.2 18.0689 12.285 19.6455 10.7937C20.4079 13.0645 20.8 15.4859 20.8 18C20.8 19.6644 20.4705 21.252 19.8732 22.709C19.1234 22.899 18.3414 23 17.538 23C13.4395 23 9.77197 21.1611 7.2882 18.261C8.84716 18.7366 10.4856 19 12.2 19C15.011 19 17.6521 18.2721 19.9234 17.0094C18.1517 19.4673 15.228 21 11.9 21C8.36629 21 5.25055 19.2081 3.42168 16.4385C4.78657 17.4332 6.45277 18 8.24354 18C13.0531 18 16.9547 14.103 16.9547 9.2934C16.9547 8.01254 16.6787 6.79726 16.1832 5.70776C18.5204 7.02796 20.0828 9.53173 20.0828 12.4C20.0828 16.4869 16.7695 19.8 12.6828 19.8C9.58557 19.8 6.93282 17.8966 5.86797 15.1764C7.03713 16.3248 8.6366 17 10.3828 17C14.1384 17 17.1828 13.9556 17.1828 10.2C17.1828 8.29177 16.3957 6.56708 15.132 5.33465C17.0782 6.18029 18.4828 8.11717 18.4828 10.4C18.4828 13.5878 15.8944 16.1762 12.7066 16.1762C10.0267 16.1762 7.77334 14.3486 7.06536 11.8744C8.01015 13.1119 9.52981 13.8828 11.2328 13.8828C14.0722 13.8828 16.3828 11.5721 16.3828 8.73281C16.3828 7.21853 15.7275 5.85698 14.6756 4.90833C16.148 5.61749 17.1828 7.10629 17.1828 8.82619C17.1828 11.2562 15.2129 13.2262 12.7828 13.2262C10.826 13.2262 9.16723 11.9546 8.56306 10.1837C9.36262 11.0825 10.5363 11.6433 11.8435 11.6433C13.8864 11.6433 15.5435 9.98622 15.5435 7.9433C15.5435 6.78216 15.0118 5.74614 14.1793 5.06894C15.2536 5.68817 15.9828 6.84065 15.9828 8.16335C15.9828 10.1384 14.3813 11.74 12.4062 11.74C10.8407 11.74 9.51034 10.7329 9.03437 9.31754C9.72146 10.0265 10.6865 10.4578 11.7424 10.4578C13.3422 10.4578 14.6424 9.15764 14.6424 7.55781C14.6424 6.60228 14.1795 5.75549 13.4542 5.23414C14.2818 5.76561 14.8252 6.68595 14.8252 7.73468C14.8252 9.2941 13.5606 10.5587 12.0012 10.5587C10.7423 10.5587 9.6766 9.73406 9.30906 8.58022C9.88096 9.14157 10.6698 9.48866 11.5323 9.48866C12.8254 9.48866 13.8752 8.43887 13.8752 7.1458C13.8752 6.37568 13.4984 5.69363 12.9231 5.26629C13.5702 5.72895 14.001 6.47167 14.001 7.30452C14.001 8.52837 13.0089 9.52042 11.785 9.52042C10.7818 9.52042 9.93489 8.8532 9.61793 7.9255C10.0984 8.3619 10.7284 8.62939 11.4184 8.62939C12.4439 8.62939 13.2753 7.79796 13.2753 6.77252C13.2753 6.16017 12.9774 5.61746 12.5117 5.27092C13.0319 5.66696 13.3642 6.27668 13.3642 6.96105C13.3642 7.9406 12.5695 8.73523 11.59 8.73523C10.7812 8.73523 10.0991 8.1945 9.83542 7.44781C10.2319 7.78457 10.7431 7.98806 11.2982 7.98806C12.1158 7.98806 12.7786 7.32525 12.7786 6.50762C12.7786 6.01594 12.5367 5.57211 12.1558 5.30391C12.5714 5.63665 12.8368 6.13845 12.8368 6.6993C12.8368 7.48151 12.2025 8.1158 11.4203 8.1158C10.7712 8.1158 10.2241 7.67807 10.0076 7.07826C10.3344 7.33649 10.7495 7.49051 11.1963 7.49051C11.849 7.49051 12.3781 6.96136 12.3781 6.30869C12.3781 5.91352 12.1818 5.56455 11.8715 5.35338C12.2046 5.6324 12.4172 6.04419 12.4172 6.5037C12.4172 7.12933 11.9099 7.63662 11.2843 7.63662C10.7634 7.63662 10.325 7.28314 10.1471 6.79953C10.4093 7.0016 10.7416 7.12151 11.0963 7.12151C11.6166 7.12151 12.0384 6.69974 12.0384 6.17945C12.0384 5.86154 11.8804 5.58066 11.63 5.41372C11.8951 5.64808 12.0647 5.9866 12.0647 6.36394C12.0647 6.86259 11.6606 7.26671 11.1619 7.26671C10.7441 7.26671 10.3934 6.98229 10.2486 6.59265C10.457 6.74936 10.7196 6.84311 11.0028 6.84311C11.417 6.84311 11.7527 6.50734 11.7527 6.09315C11.7527 5.83907 11.626 5.61466 11.4251 5.48154C11.6341 5.67914 11.7686 5.96105 11.7686 6.27318C11.7686 6.67156 11.4457 6.99446 11.0473 6.99446C10.7121 6.99446 10.4309 6.76566 10.313 6.45265C10.4772 6.57463 10.6834 6.64754 10.906 6.64754C11.2346 6.64754 11.501 6.38116 11.501 6.05261C11.501 5.85045 11.3995 5.67191 11.2384 5.56515C11.4026 5.73357 11.5086 5.96162 11.5086 6.21303C11.5086 6.52981 11.2518 6.78663 10.935 6.78663C10.6675 6.78663 10.4429 6.60334 10.3475 6.35246C10.476 6.44754 10.6369 6.50424 10.8093 6.50424C11.0682 6.50424 11.2781 6.29437 11.2781 6.03546C11.2781 5.87532 11.1973 5.73403 11.0684 5.64861C11.1963 5.79247 11.2796 5.98188 11.2796 6.18956C11.2796 6.44026 11.0763 6.64353 10.8256 6.64353C10.6121 6.64353 10.4328 6.49547 10.3556 6.29524Z">
+                        </path>
+                    </svg>
+                </button>
+                <a href="#contact" class="btn-primary">Get In Touch</a>
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+
+        <div class="container hero-content">
+            <div class="badge hero-elem">
+                <span class="badge-dot"></span>
+                Est. 2008 • Premier Carrier
+            </div>
+
+            <h1 class="hero-title">
+                <div class="line-wrap">
+                    <div class="line">India's</div>
+                </div>
+                <div class="line-wrap">
+                    <div class="line title-outline">Backbone</div>
+                </div>
+                <div class="line-wrap">
+                    <div class="line">Of Automobile</div>
+                </div>
+                <div class="line-wrap">
+                    <div class="line">Logistics</div>
+                </div>
+            </h1>
+
+            <p class="hero-subtitle hero-elem">
+                <span class="counter" data-target="16">0</span> Years · <span class="counter"
+                    data-target="250">0</span>+ Carriers · <span class="counter" data-target="900">0</span>+ Drivers ·
+                Pan-India Network. We deliver precision, reliability, and
+                scale for the world's leading automotive brands across the subcontinent.
+            </p>
+
+
+        </div>
+
+        <!-- Floating Stat Card -->
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.43 4 16.05 4 12C4 7.95 7.05 4.57 11 4.07V19.93ZM13 4.07C16.95 4.57 20 7.95 20 12C20 16.05 16.95 19.43 13 19.93V4.07Z" />
+                </svg>
+            </div>
+            <div class="stat-value"><span class="counter" data-target="7000">0</span>+</div>
+            <div class="stat-label">CBU/month delivered seamlessly across our network</div>
+        </div>
+
+        <!-- Trusted Brands Strip -->
+        <div class="brands-wrapper">
+            <div class="container brands-inner">
+                <div class="brands-title">Trusted By Industry Leaders</div>
+                <div class="brands-scroll">
+                    <div class="brands-track">
+                        <!-- Duplicated for seamless scrolling -->
+                        <span class="brand-item">ASHOK LEYLAND</span>
+                        <span class="brand-item">MAHINDRA</span>
+                        <span class="brand-item">TOYOTA</span>
+                        <span class="brand-item">KIA MOTORS</span>
+                        <span class="brand-item">TATA MOTORS</span>
+                        <span class="brand-item">HYUNDAI</span>
+                        <!-- Duplicate set -->
+                        <span class="brand-item">ASHOK LEYLAND</span>
+                        <span class="brand-item">MAHINDRA</span>
+                        <span class="brand-item">TOYOTA</span>
+                        <span class="brand-item">KIA MOTORS</span>
+                        <span class="brand-item">TATA MOTORS</span>
+                        <span class="brand-item">HYUNDAI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+        <div class="about-grid">
+            <div class="about-image-col">
+                <div class="about-image-wrapper">
+                    <div class="about-image"></div>
+                </div>
+            </div>
+            <div class="about-text">
+                <div class="section-header">
+                    <div class="section-subtitle">Who We Are</div>
+                    <h2 class="section-title">MOVING INDIA <br><span class="title-outline">FORWARD</span></h2>
+                </div>
+                <p>
+                    With <span class="counter" data-target="16">0</span> Years of Trust, Precision & Scale, Dayal
+                    Logistics has emerged as a premier automobile logistics operator. Headquartered in Karnal, Haryana,
+                    we maintain a vast pan-India footprint, ensuring the seamless transit of vehicles from assembly
+                    lines to dealerships.
+                </p>
+                <p>
+                    Our operations are driven by a commitment to zero-defect delivery, leveraging our expansive fleet
+                    and deep industry expertise to serve the nation's leading automotive brands.
+                </p>
+
+                <div class="about-pillars">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor"
+                                    stroke-width="2" fill="none" />
+                            </svg>
+                        </div>
+                        <div class="pillar-title">Licensed Pan-India</div>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor"
+                                    stroke-width="2" fill="none" />
+                            </svg>
+                        </div>
+                        <div class="pillar-title">Financially Robust</div>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 22h16M12 2v20M8 22V10l4-8 4 8v12" stroke="currentColor" stroke-width="2"
+                                    fill="none" />
+                            </svg>
+                        </div>
+                        <div class="pillar-title">Govt. Liaisons</div>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 15l-4-4 1.4-1.4 2.6 2.6 6.6-6.6L18 9l-8 8z"
+                                    fill="currentColor" />
+                            </svg>
+                        </div>
+                        <div class="pillar-title">Ethical Operations</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="leadership">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">Our People</div>
+                <h2 class="section-title">Leadership</h2>
+            </div>
+
+            <div class="leadership-grid">
+                <!-- Primary Leader -->
+                <div class="lead-primary">
+                    <div class="lead-card-large">
+                        <div class="lead-img-placeholder"></div>
+                        <div class="lead-info">
+                            <h3 class="lead-name">Rajesh Kumar</h3>
+                            <div class="lead-title">(MD) Owner</div>
+                            <p class="lead-desc">
+                                Steering Dayal Logistics with over two decades of vision and deep logistical expertise.
+                                Under his guidance, the company has scaled from a regional carrier to a trusted
+                                pan-India logistics backbone.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Leaders & Dept Heads -->
+                <div class="lead-content">
+                    <div class="lead-secondary-grid">
+                        <div class="lead-card-small">
+                            <div class="lead-small-name">Randeep Chauhan</div>
+                            <div class="lead-small-title">(Co-Owner)</div>
+                        </div>
+                        <div class="lead-card-small">
+                            <div class="lead-small-name">Sukhdayal</div>
+                            <div class="lead-small-title">(Co-Owner)</div>
+                        </div>
+                        <div class="lead-card-small">
+                            <div class="lead-small-name">Mukesh Kumar</div>
+                            <div class="lead-small-title">(Company Head)</div>
+                        </div>
+                        <div class="lead-card-small">
+                            <div class="lead-small-name">Gaurav Bhardwaj</div>
+                            <div class="lead-small-title">(General Manager)</div>
+                        </div>
+                    </div>
+
+                    <div class="dept-heads">
+                        <div class="dept-title">Department Managers</div>
+                        <div class="dept-list">
+                            <span class="dept-tag">Hoshair Singh (Sr. Manager)</span>
+                            <span class="dept-tag">Kuldeep (Fleet Manager)</span>
+                            <span class="dept-tag">Rohit Rana (Finance Manager)</span>
+                            <span class="dept-tag">Keshav Sharma (Accounts Manager)</span>
+                            <span class="dept-tag">Narinder Kumar (RSO Manager)</span>
+                        </div>
+                    </div>
+
+                    <div class="support-line">
+                        Managers &amp; Supervisors &middot; Fleet Supervisors &middot; Stockyard Managers
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="container">
+        <div class="section-header">
+            <div class="section-subtitle">What We Do</div>
+            <h2 class="section-title">OUR <span class="title-outline">CAPABILITIES</span></h2>
+        </div>
+
+        <div class="services-stack">
+            <!-- Service 1 -->
+            <div class="service-panel">
+                <div class="service-content">
+                    <div class="service-num">01</div>
+                    <h3 class="service-title">Car Carrier Services</h3>
+                    <p class="service-desc">
+                        Our core capability. We operate a massive fleet designed specifically for safe, zero-defect
+                        transit of vehicles from manufacturers to distribution hubs and dealerships nationwide.
+                    </p>
+                    <div class="service-meta">
+                        <span class="service-tag">250+ Carriers</span>
+                        <span class="service-tag">7,000+ CBU/month</span>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-panel">
+                <div class="service-content">
+                    <div class="service-num">02</div>
+                    <h3 class="service-title">Self-Propel Transportation</h3>
+                    <p class="service-desc">
+                        A major differentiator in our operational model. We deploy expert drivers to safely physically
+                        drive and deliver premium commercial and heavy vehicles directly to their destination, ensuring
+                        perfect condition.
+                    </p>
+                    <div class="service-meta">
+                        <span class="service-tag">Expert Drivers</span>
+                        <span class="service-tag">Zero Defect Transit</span>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-panel">
+                <div class="service-content">
+                    <div class="service-num">03</div>
+                    <h3 class="service-title">Logistics Consulting</h3>
+                    <p class="service-desc">
+                        Physical distribution strategy and network optimization. We consult with major OEMs to design
+                        highly efficient routes, minimizing dwell time and maximizing distribution velocity.
+                    </p>
+                </div>
+                <div class="service-visual">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-panel">
+                <div class="service-content">
+                    <div class="service-num">04</div>
+                    <h3 class="service-title">Stockyard & Warehouse Operations</h3>
+                    <p class="service-desc">
+                        Secure, state-of-the-art holding yards and warehousing solutions designed to manage massive
+                        inventory before final dispatch. Fully monitored and systematically managed.
+                    </p>
+                    <div class="service-meta">
+                        <span class="service-tag">20+ Lac Sq.Ft. Capacity</span>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-panel">
+                <div class="service-content">
+                    <div class="service-num">05</div>
+                    <h3 class="service-title">Train Movement (Jockey Transportation)</h3>
+                    <p class="service-desc">
+                        Integrated multimodal logistics involving rail networks. We provide specialized Jockey
+                        transportation to load and unload vehicles onto rail carriers efficiently and safely.
+                    </p>
+                    <div class="service-meta">
+                        <span class="service-tag">Multimodal Integration</span>
+                    </div>
+                </div>
+                <div class="service-visual">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-7H6V6h5v4zm4 0h-5V6h5v4zm1.5 7c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Network Section -->
+    <section id="network" class="network">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-subtitle">National Footprint</div>
+                <h2 class="section-title">OUR REACH <span class="title-outline">ACROSS INDIA</span></h2>
+            </div>
+
+            <div class="network-grid">
+                <div class="locations-wrapper">
+                    <div class="locations-list">
+                        <!-- Karnal HQ -->
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Karnal" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="karnal">
+                            <div class="loc-hq"></div>
+                            <div class="loc-name">Karnal <span class="hq-badge">Head Office</span></div>
+                            <div class="loc-desc">Command Center & Central Stockyard</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <!-- Other Locations -->
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Delhi" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="delhi">
+                            <div class="loc-name">Delhi</div>
+                            <div class="loc-desc">Regional Hub & Distribution</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Noida" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="noida">
+                            <div class="loc-name">Noida</div>
+                            <div class="loc-desc">Major Stockyard Facility</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Gurgaon" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="gurgaon">
+                            <div class="loc-name">Gurgaon</div>
+                            <div class="loc-desc">Corporate Operations</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Patiala" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="patiala">
+                            <div class="loc-name">Patiala</div>
+                            <div class="loc-desc">Transit Node</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Chandigarh" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="chandigarh">
+                            <div class="loc-name">Chandigarh</div>
+                            <div class="loc-desc">Northern Transit Hub</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Himachal" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="himachal">
+                            <div class="loc-name">Himachal Pradesh</div>
+                            <div class="loc-desc">Hill State Operations (Badi)</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Haridwar" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="haridwar">
+                            <div class="loc-name">Haridwar</div>
+                            <div class="loc-desc">Uttarakhand Operations</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Jaipur" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="jaipur">
+                            <div class="loc-name">Jaipur</div>
+                            <div class="loc-desc">Western Region Node</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Belgaum" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="belgaum">
+                            <div class="loc-name">Belgaum</div>
+                            <div class="loc-desc">Southern Corridor Node</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Hosur" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="hosur">
+                            <div class="loc-name">Hosur</div>
+                            <div class="loc-desc">Major Southern Stockyard</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Zaheerabad" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="zaheerabad">
+                            <div class="loc-name">Zaheerabad</div>
+                            <div class="loc-desc">Central/South Hub</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                        <a href="https://www.google.com/maps/search/Dayal+Logistics+Nagpur" target="_blank"
+                            rel="noopener noreferrer" class="loc-card" data-loc="nagpur">
+                            <div class="loc-name">Nagpur</div>
+                            <div class="loc-desc">Central India Mega-Yard</div>
+                            <div class="loc-link">View on Maps <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+                                </svg></div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="map-wrapper">
+                    <!-- Accurate Geographic SVG representation of India -->
+                    <svg class="india-map" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid meet">
+                        <!-- Precise India Boundary Path -->
+                        <path class="map-boundary"
+                            d="M305,25 L315,35 L330,25 L345,45 L340,65 L360,75 L355,95 L370,110 L350,130 L345,150 L355,170 L340,190 L360,210 L375,200 L395,215 L405,235 L425,230 L445,245 L465,240 L485,255 L500,280 L485,300 L495,320 L480,340 L490,360 L470,380 L450,370 L430,385 L410,380 L390,395 L370,385 L350,400 L330,420 L320,440 L310,470 L300,500 L290,530 L280,560 L270,590 L260,620 L250,650 L240,670 L230,685 L220,670 L210,640 L200,610 L190,580 L180,550 L170,520 L160,490 L150,460 L140,430 L130,400 L120,380 L100,370 L80,360 L70,340 L85,320 L75,300 L90,280 L80,260 L95,240 L85,220 L100,200 L120,190 L140,185 L155,165 L145,145 L160,125 L175,110 L170,90 L185,75 L200,85 L215,70 L220,50 L235,35 L250,20 L265,35 L280,25 L295,35 Z"
+                            stroke-linejoin="round" />
+
+                        <!-- Location Points (Accurately Calibrated) -->
+                        <!-- North Cluster -->
+                        <circle cx="215" cy="130" class="map-point map-point-hq" id="pt-karnal" />
+                        <circle cx="218" cy="148" class="map-point" id="pt-delhi" />
+                        <circle cx="230" cy="155" class="map-point" id="pt-noida" />
+                        <circle cx="208" cy="158" class="map-point" id="pt-gurgaon" />
+                        <circle cx="195" cy="120" class="map-point" id="pt-patiala" />
+                        <circle cx="205" cy="110" class="map-point" id="pt-chandigarh" />
+                        <circle cx="215" cy="95" class="map-point" id="pt-himachal" />
+                        <circle cx="245" cy="140" class="map-point" id="pt-haridwar" />
+
+                        <!-- West/Central -->
+                        <circle cx="170" cy="220" class="map-point" id="pt-jaipur" />
+                        <circle cx="260" cy="340" class="map-point" id="pt-nagpur" />
+
+                        <!-- South Corridor -->
+                        <circle cx="210" cy="460" class="map-point" id="pt-zaheerabad" />
+                        <circle cx="180" cy="540" class="map-point" id="pt-belgaum" />
+                        <circle cx="235" cy="580" class="map-point" id="pt-hosur" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="container">
+        <div class="partners-header">
+            <h2 class="section-title">TRUSTED BY INDIA'S <br><span class="title-outline">AUTOMOTIVE GIANTS</span></h2>
+            <div class="section-subtitle">Powering the supply chains of the brands that move India</div>
+        </div>
+
+        <div class="featured-partners">
+            <div class="partner-card">
+                <img src="logos/ashok_leyland_logo.png" alt="Ashok Leyland"
+                    class="partner-logo-img">
+                <div class="partner-stat-pill">Strategic Supply Partner</div>
+            </div>
+            <a href="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="partner-card">
+                <img src="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                    alt="Mahindra" class="partner-logo-img" onerror="this.src='logos/mahindra_logo.png'">
+                <div class="partner-stat-pill">National Distribution Network</div>
+            </a>
+        </div>
+    </section>
+
+    <div class="partner-marquee-wrap">
+        <div class="partner-marquee">
+            <span class="pm-item">
+                <img src="logos/ashok_leyland_logo.png" class="pm-logo"
+                    alt="Ashok Leyland">
+                <span class="pm-text">Ashok Leyland</span>
+            </span>
+
+            <a href="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                    class="pm-logo" alt="Mahindra" onerror="this.src='logos/mahindra_logo.png'">
+                <span class="pm-text">Mahindra</span>
+            </a>
+
+            <a href="https://assets.revistacultivar.com.br/d782c974-21d9-47bd-8489-ddb2a50c59c2.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://assets.revistacultivar.com.br/d782c974-21d9-47bd-8489-ddb2a50c59c2.png"
+                    class="pm-logo" alt="Mahindra Tractors" onerror="this.src='logos/mahindra_tractors_logo.png'">
+                <span class="pm-text">Mahindra Tractors</span>
+            </a>
+
+            <a href="https://png.cleanpng.com/downloadpng/a4741d449772f289f4047922e1a713fc/L3PzQ3F5ggcwfJD5R6JuZXKzQ7W8hvM4a2E5UKJuNkC5SIq3gvE5amk9SqUBLoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/a4741d449772f289f4047922e1a713fc/L3PzQ3F5ggcwfJD5R6JuZXKzQ7W8hvM4a2E5UKJuNkC5SIq3gvE5amk9SqUBLoDxd1==.png"
+                    class="pm-logo" alt="Hyundai" onerror="this.src='logos/hyundai_logo.png'">
+                <span class="pm-text">Hyundai</span>
+            </a>
+
+            <a href="https://www.citypng.com/public/uploads/preview/kia-white-logo-hd-png-7017516947105094q5qjti6gq.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://www.citypng.com/public/uploads/preview/kia-white-logo-hd-png-7017516947105094q5qjti6gq.png"
+                    class="pm-logo" alt="KIA" onerror="this.src='logos/kia_logo.png'">
+                <span class="pm-text">KIA</span>
+            </a>
+
+            <a href="https://png.cleanpng.com/downloadpng/246d59aa3432d13e1ed3f57da6f37f93/L3PzRHFxlgMweqVuR9hqZXLmQ4eBVshjQGE1fKNuZkK1R7O7VslkQJZoUKo7LoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/246d59aa3432d13e1ed3f57da6f37f93/L3PzRHFxlgMweqVuR9hqZXLmQ4eBVshjQGE1fKNuZkK1R7O7VslkQJZoUKo7LoDxd1==.png"
+                    class="pm-logo" alt="Toyota" onerror="this.src='logos/toyota_logo.png'">
+                <span class="pm-text">Toyota</span>
+            </a>
+
+            <a href="https://s3-symbol-logo.tradingview.com/mahindra-logistics--600.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://s3-symbol-logo.tradingview.com/mahindra-logistics--600.png" class="pm-logo"
+                    alt="Mahindra Logistics" onerror="this.src='logos/mahindra_logistics_logo.png'">
+                <span class="pm-text">Mahindra Logistics</span>
+            </a>
+
+            <a href="https://jcblgroup.com/images/logo/newgroup.png" target="_blank" rel="noopener noreferrer"
+                class="pm-item">
+                <img src="https://jcblgroup.com/images/logo/newgroup.png" class="pm-logo" alt="JCBL"
+                    onerror="this.src='logos/jcbl_logo.png'">
+                <span class="pm-text">JCBL</span>
+            </a>
+
+            <span class="pm-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Yw_f_nU0rIq_f_L9i-j-S9_vW9iI9rI9_w&s"
+                    class="pm-logo" alt="Kranti Auto" onerror="this.src='logos/kranti_automotives_logo.png'">
+                <span class="pm-text">Kranti Auto</span>
+            </span>
+
+            <a href="https://www.carlogos.org/logo/Tata-logo-2000-2560x1440.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://www.carlogos.org/logo/Tata-logo-2000-2560x1440.png" class="pm-logo" alt="TATA"
+                    onerror="this.src='logos/tata_logo.png'">
+                <span class="pm-text">TATA</span>
+            </a>
+
+            <a href="https://infinityautomations.com/newimg/All%20Clients/row1-logos/Continental%20Baxy.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://infinityautomations.com/newimg/All%20Clients/row1-logos/Continental%20Baxy.png"
+                    class="pm-logo" alt="Baxy" onerror="this.src='logos/baxy_continental_logo.png'">
+                <span class="pm-text">Baxy</span>
+            </a>
+
+            <a href="https://toppng.com/uploads/preview/mercedes-benz-logo-hd-png-mercedes-logo-11563238820qsfxo8abij.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://toppng.com/uploads/preview/mercedes-benz-logo-hd-png-mercedes-logo-11563238820qsfxo8abij.png"
+                    class="pm-logo" alt="Mercedes" onerror="this.src='logos/mercedes_benz_logo.png'">
+                <span class="pm-text">Mercedes</span>
+            </a>
+
+            <!-- Duplicate set for infinite scroll -->
+            <span class="pm-item">
+                <img src="logos/ashok_leyland_logo.png" class="pm-logo"
+                    alt="Ashok Leyland">
+                <span class="pm-text">Ashok Leyland</span>
+            </span>
+
+            <a href="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                    class="pm-logo" alt="Mahindra" onerror="this.src='logos/mahindra_logo.png'">
+                <span class="pm-text">Mahindra</span>
+            </a>
+
+            <a href="https://assets.revistacultivar.com.br/d782c974-21d9-47bd-8489-ddb2a50c59c2.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://assets.revistacultivar.com.br/d782c974-21d9-47bd-8489-ddb2a50c59c2.png"
+                    class="pm-logo" alt="Mahindra Tractors" onerror="this.src='logos/mahindra_tractors_logo.png'">
+                <span class="pm-text">Mahindra Tractors</span>
+            </a>
+
+            <a href="https://png.cleanpng.com/downloadpng/a4741d449772f289f4047922e1a713fc/L3PzQ3F5ggcwfJD5R6JuZXKzQ7W8hvM4a2E5UKJuNkC5SIq3gvE5amk9SqUBLoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/a4741d449772f289f4047922e1a713fc/L3PzQ3F5ggcwfJD5R6JuZXKzQ7W8hvM4a2E5UKJuNkC5SIq3gvE5amk9SqUBLoDxd1==.png"
+                    class="pm-logo" alt="Hyundai" onerror="this.src='logos/hyundai_logo.png'">
+                <span class="pm-text">Hyundai</span>
+            </a>
+
+            <a href="https://www.citypng.com/public/uploads/preview/kia-white-logo-hd-png-7017516947105094q5qjti6gq.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://www.citypng.com/public/uploads/preview/kia-white-logo-hd-png-7017516947105094q5qjti6gq.png"
+                    class="pm-logo" alt="KIA" onerror="this.src='logos/kia_logo.png'">
+                <span class="pm-text">KIA</span>
+            </a>
+
+            <a href="https://png.cleanpng.com/downloadpng/246d59aa3432d13e1ed3f57da6f37f93/L3PzRHFxlgMweqVuR9hqZXLmQ4eBVshjQGE1fKNuZkK1R7O7VslkQJZoUKo7LoDxd1==.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://png.cleanpng.com/downloadpng/246d59aa3432d13e1ed3f57da6f37f93/L3PzRHFxlgMweqVuR9hqZXLmQ4eBVshjQGE1fKNuZkK1R7O7VslkQJZoUKo7LoDxd1==.png"
+                    class="pm-logo" alt="Toyota" onerror="this.src='logos/toyota_logo.png'">
+                <span class="pm-text">Toyota</span>
+            </a>
+
+            <a href="https://s3-symbol-logo.tradingview.com/mahindra-logistics--600.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://s3-symbol-logo.tradingview.com/mahindra-logistics--600.png" class="pm-logo"
+                    alt="Mahindra Logistics" onerror="this.src='logos/mahindra_logistics_logo.png'">
+                <span class="pm-text">Mahindra Logistics</span>
+            </a>
+
+            <a href="https://jcblgroup.com/images/logo/newgroup.png" target="_blank" rel="noopener noreferrer"
+                class="pm-item">
+                <img src="https://jcblgroup.com/images/logo/newgroup.png" class="pm-logo" alt="JCBL"
+                    onerror="this.src='logos/jcbl_logo.png'">
+                <span class="pm-text">JCBL</span>
+            </a>
+
+            <span class="pm-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Yw_f_nU0rIq_f_L9i-j-S9_vW9iI9rI9_w&s"
+                    class="pm-logo" alt="Kranti Auto" onerror="this.src='logos/kranti_automotives_logo.png'">
+                <span class="pm-text">Kranti Auto</span>
+            </span>
+
+            <a href="https://www.carlogos.org/logo/Tata-logo-2000-2560x1440.png" target="_blank"
+                rel="noopener noreferrer" class="pm-item">
+                <img src="https://www.carlogos.org/logo/Tata-logo-2000-2560x1440.png" class="pm-logo" alt="TATA"
+                    onerror="this.src='logos/tata_logo.png'">
+                <span class="pm-text">TATA</span>
+            </a>
+
+            <a href="https://infinityautomations.com/newimg/All%20Clients/row1-logos/Continental%20Baxy.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://infinityautomations.com/newimg/All%20Clients/row1-logos/Continental%20Baxy.png"
+                    class="pm-logo" alt="Baxy" onerror="this.src='logos/baxy_continental_logo.png'">
+                <span class="pm-text">Baxy</span>
+            </a>
+
+            <a href="https://toppng.com/uploads/preview/mercedes-benz-logo-hd-png-mercedes-logo-11563238820qsfxo8abij.png"
+                target="_blank" rel="noopener noreferrer" class="pm-item">
+                <img src="https://toppng.com/uploads/preview/mercedes-benz-logo-hd-png-mercedes-logo-11563238820qsfxo8abij.png"
+                    class="pm-logo" alt="Mercedes" onerror="this.src='logos/mercedes_benz_logo.png'">
+                <span class="pm-text">Mercedes</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Stockyards & Warehousing -->
+    <section id="infrastructure" class="container">
+        <div class="section-header">
+            <div class="section-subtitle">Scale & Precision</div>
+            <h2 class="section-title">INFRASTRUCTURE <br><span class="title-outline">AT SCALE</span></h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin-top: 1.5rem;">
+                Strategically positioned across India's automotive manufacturing belt to minimize turnaround time and
+                maximize dispatch velocity.
+            </p>
+        </div>
+
+        <div class="infra-grid">
+            <div class="infra-data-list">
+                <!-- Ashok Leyland -->
+                <div class="infra-card">
+                    <div class="infra-oem">Ashok Leyland</div>
+                    <div class="infra-locs">
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Hosur</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group">
+                                    <span class="infra-stat-val infra-counter" data-target="500000">0</span>
+                                    <span class="infra-stat-lbl">Sq.Ft.</span>
+                                </div>
+                                <div class="infra-stat-group">
+                                    <span class="infra-stat-val infra-counter" data-target="4000">0</span>
+                                    <span class="infra-stat-lbl">SKUs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mahindra -->
+                <div class="infra-card">
+                    <div class="infra-oem">Mahindra</div>
+                    <div class="infra-locs">
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Dharuhera</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="250000">0</span><span class="infra-stat-lbl">Sq.Ft.</span></div>
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="1000">0</span><span class="infra-stat-lbl">SKUs</span></div>
+                            </div>
+                        </div>
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Noida</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="200000">0</span><span class="infra-stat-lbl">Sq.Ft.</span></div>
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="1000">0</span><span class="infra-stat-lbl">SKUs</span></div>
+                            </div>
+                        </div>
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Badi</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="150000">0</span><span class="infra-stat-lbl">Sq.Ft.</span></div>
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="700">0</span><span class="infra-stat-lbl">SKUs</span></div>
+                            </div>
+                        </div>
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Karnal</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="150000">0</span><span class="infra-stat-lbl">Sq.Ft.</span></div>
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="400">0</span><span class="infra-stat-lbl">SKUs</span></div>
+                            </div>
+                        </div>
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Nagpur</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="450000">0</span><span class="infra-stat-lbl">Sq.Ft.</span></div>
+                                <div class="infra-stat-group"><span class="infra-stat-val infra-counter"
+                                        data-target="4000">0</span><span class="infra-stat-lbl">SKUs</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mahindra Logistics -->
+                <div class="infra-card">
+                    <div class="infra-oem">Mahindra Logistics</div>
+                    <div class="infra-locs">
+                        <div class="infra-loc-item">
+                            <div class="infra-city">Vasai</div>
+                            <div class="infra-stats">
+                                <div class="infra-stat-group">
+                                    <span class="infra-stat-val infra-counter" data-target="400000">0</span>
+                                    <span class="infra-stat-lbl">Sq.Ft.</span>
+                                </div>
+                                <div class="infra-stat-group">
+                                    <span class="infra-stat-val infra-counter" data-target="5000">0</span>
+                                    <span class="infra-stat-lbl">SKUs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="infra-summary">
+                <div class="infra-summary-panel">
+                    <h3 class="summary-title">Network Capacity</h3>
+                    <div class="summary-item">
+                        <div class="summary-val"><span class="infra-counter" data-target="20">0</span>+</div>
+                        <div class="summary-lbl">Lac Sq.Ft. Total Area</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-val"><span class="infra-counter" data-target="15100">0</span>+</div>
+                        <div class="summary-lbl">SKUs Total Capacity</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-val"><span class="infra-counter" data-target="7">0</span></div>
+                        <div class="summary-lbl">Stockyard Locations</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-val"><span class="infra-counter" data-target="3">0</span></div>
+                        <div class="summary-lbl">Major OEM Partners</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements container">
+        <div class="section-header text-center" style="text-align: center;">
+            <div class="section-subtitle">Awards & Recognition</div>
+            <h2 class="section-title gold-glow-title">A LEGACY OF <br><span>EXCELLENCE</span></h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 1.5rem auto 0;">
+                Recognized by India's respected automotive corporations for our commitment to precision, scale, and
+                ethical operations.
+            </p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-progress-line"></div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2015</div>
+                <div class="timeline-content">1st Position, Self-Propel Transportation</div>
+                <div class="timeline-client">Ashok Leyland</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2016</div>
+                <div class="timeline-content">Excellence in Overall Performance</div>
+                <div class="timeline-client">Ashok Leyland</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2017</div>
+                <div class="timeline-content">Excellence in Self-Propel Transportation</div>
+                <div class="timeline-client">Ashok Leyland</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">Ongoing</div>
+                <div class="timeline-content">Best Performance in Last 5 Years</div>
+                <div class="timeline-client">Mahindra Rise</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">After 5 Years</div>
+                <div class="timeline-content">Appreciation by Mr. Anuj Kathuria, President &ndash; Global Trucks</div>
+                <div class="timeline-client">Ashok Leyland</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2022</div>
+                <div class="timeline-content">Exemplary Contribution to Logistics Business</div>
+                <div class="timeline-client">TLKI (Toyota Logistics Kishor India Pvt. Ltd.)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2022</div>
+                <div class="timeline-content">Star Performance Certificate</div>
+                <div class="timeline-client">Ashok Leyland</div>
+            </div>
+        </div>
+
+        <div class="testimonials">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">Dayal Logistics provide skilled and ethical manpower 24&times;7</div>
+                <div class="testimonial-author-wrap">
+                    <a href="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                        target="_blank" rel="noopener noreferrer">
+                        <img src="https://png.cleanpng.com/downloadpng/d64a905bfd9e93f0f3714361f2ad7abf/L3PzQnFyjgEwdqNBR9Q5YnK8c4O6WckybmJrSdYCOHazRYi9WcZmbGU9T9cCLoDxd1==.png"
+                            class="testimonial-author-logo" alt="Mahindra" onerror="this.src='logos/mahindra_logo.png'">
+                    </a>
+                    <div class="testimonial-author">Mahindra &amp; Mahindra</div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">Dayal offer best services towards the smooth running of our business
+                </div>
+                <div class="testimonial-author-wrap">
+                    <img src="logos/ashok_leyland_logo.png"
+                        class="testimonial-author-logo" alt="Ashok Leyland">
+                    <div class="testimonial-author">Ashok Leyland</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="section-subtitle">Get In Touch</div>
+                    <h2 class="contact-info-title">LET'S BUILD <br><span class="title-outline">SOMETHING TOGETHER</span>
+                    </h2>
+
+                    <div class="contact-details">
+                        <div class="contact-detail-item">
+                            <div class="cd-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                </svg>
+                            </div>
+                            <div class="cd-text">
+                                <strong>Dayal Logistics</strong>
+                                SCO 14-15, Vikas Colony,<br>
+                                Near Heritage Lawn, Sector 35,<br>
+                                Karnal, Haryana, 132001, India
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <div class="cd-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                </svg>
+                            </div>
+                            <div class="cd-text">
+                                <strong>Email Enquiries</strong>
+                                <a href="mailto:gauravbhardwaj@dayallogistics.com"
+                                    style="color: inherit; text-decoration: none;">gauravbhardwaj@dayallogistics.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <div class="cd-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM15 18H9v-2h6v2zm0-4H9v-2h6v2z" />
+                                </svg>
+                            </div>
+                            <div class="cd-text">
+                                <strong>Tax Information</strong>
+                                GST No: 06AAGFD4994E1ZC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="dayalContactForm" action="https://api.web3forms.com/submit"
+                        method="POST">
+                        <input type="hidden" name="access_key" value="10739cd8-8930-4d3b-96c4-3dfefa4d0b15">
+                        <input type="hidden" name="subject" value="New Contact Inquiry - Dayal Logistics">
+                        <input type="checkbox" name="botcheck" style="display:none">
+
+                        <div class="form-group">
+                            <input type="text" id="contactName" name="name" class="form-control" placeholder="Your Name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="contactCompany" name="company" class="form-control"
+                                placeholder="Company Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="contactPhone" name="phone" class="form-control"
+                                placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="contactMessage" name="message" class="form-control" placeholder="Your Message"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary btn-submit">
+                            Send Enquiry
+                        </button>
+                        <div id="formResponse" class="badge"
+                            style="display: none; margin-top: 1.5rem; width: 100%; justify-content: center;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">Dayal Logistics <span class="logo-dot"></span></a>
+                    <p class="footer-desc">
+                        India's premier automobile logistics operator. Delivering precision and scale across the
+                        subcontinent since 2008.
+                    </p>
+                </div>
+                <div class="footer-nav">
+                    <div class="footer-links">
+                        <a href="#about" class="footer-link">About Us</a>
+                        <a href="#services" class="footer-link">Our Services</a>
+                        <a href="#network" class="footer-link">Pan-India Network</a>
+                        <a href="#infrastructure" class="footer-link">Stockyards & Capacity</a>
+                        <a href="#contact" class="footer-link">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2026 Dayal Logistics. All rights reserved.</div>
+                <div class="footer-meta">
+                    <span>Karnal, Haryana, India</span>
+                    <span>GST No: 06AAGFD4994E1ZC</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // GSAP Initialization
+        gsap.registerPlugin(MotionPathPlugin, ScrollTrigger);
+
+        // Preloader Timeline (Starts immediately)
+        const preloaderTl = gsap.timeline();
+
+        // Set initial states
+        gsap.set("#activePath", { strokeDasharray: 800, strokeDashoffset: 800 });
+        gsap.set("#truckGroup", { 
+            opacity: 0, 
+            x: 50, 
+            y: 60,
+            transformOrigin: "50% 50%" 
+        });
+        gsap.set("#pinB", { scale: 0, transformOrigin: "bottom center" });
+
+        // Start Animation Immediately
+        preloaderTl.to('.preloader-brand span', {
+            y: '0%',
+            duration: 0.8,
+            ease: 'power3.out'
+        })
+            .to("#truckGroup", {
+                opacity: 1,
+                duration: 0.3
+            }, "-=0.2")
+            .to("#activePath", {
+                strokeDashoffset: 0,
+                duration: 4,
+                ease: "power1.inOut"
+            }, "pathAnim")
+            .to("#truckGroup", {
+                motionPath: {
+                    path: "#mainPath",
+                    autoRotate: true,
+                    align: "#mainPath",
+                    alignOrigin: [0.5, 0.5]
+                },
+                duration: 4,
+                ease: "power1.inOut"
+            }, "pathAnim")
+            .to("#pinB", {
+                scale: 1,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+            }, "-=0.5")
+            .to("#pinB", {
+                y: "-=8",
+                repeat: -1,
+                yoyo: true,
+                duration: 0.7,
+                ease: "sine.inOut"
+            });
+
+        // Track if window is loaded
+        let isWindowLoaded = false;
+
+        // Function to hide preloader and start hero animations
+        const hidePreloader = () => {
+            const preloader = document.querySelector('.preloader');
+            if (!preloader || preloader.getAttribute('data-hidden') === 'true') return;
+
+            preloader.setAttribute('data-hidden', 'true');
+
+            gsap.timeline()
+                .to('.preloader', {
+                    yPercent: -100,
+                    duration: 0.8,
+                    ease: 'power4.inOut',
+                    delay: 0.5
+                })
+                .fromTo('.hero-title .line', {
+                    y: '100%'
+                }, {
+                    y: '0%',
+                    duration: 1,
+                    stagger: 0.15,
+                    ease: 'power4.out'
+                }, '-=0.4')
+                .fromTo('.hero-elem', {
+                    y: 30,
+                    opacity: 0
+                }, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                }, '-=0.6')
+                .fromTo('.stat-card', {
+                    x: 50,
+                    opacity: 0
+                }, {
+                    x: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power3.out'
+                }, '-=0.6')
+                .fromTo('.brands-wrapper', {
+                    y: '100%'
+                }, {
+                    y: '0%',
+                    duration: 0.8,
+                    ease: 'power3.out'
+                }, '-=1');
+        };
+
+        // ENFORCED COMPLETION: The animation MUST finish before hiding
+        preloaderTl.add(() => {
+            if (isWindowLoaded) {
+                hidePreloader();
+            }
+        });
+
+        // SAFETY TIMEOUT: Force hide preloader if it takes more than 5 seconds
+        const preloaderTimeout = setTimeout(hidePreloader, 5000);
+
+        window.addEventListener('load', () => {
+            isWindowLoaded = true;
+            // If animation is already done, hide now
+            if (preloaderTl.progress() === 1) {
+                hidePreloader();
+            }
+            clearTimeout(preloaderTimeout);
+        });
+
+        // Theme Toggle
+        const themeBtn = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+
+        // Check local storage or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'light' || (!savedTheme && !systemDark)) {
+            root.setAttribute('data-theme', 'light');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = root.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                root.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                root.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        // Only run cursor code if device has fine pointer
+        if (window.matchMedia('(pointer: fine)').matches) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // Slight delay for outline
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 150, fill: "forwards" });
+            });
+
+            // Hover effects for interactive elements
+            const interactives = document.querySelectorAll('a, button, .play-btn');
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorOutline.style.width = '60px';
+                    cursorOutline.style.height = '60px';
+                    cursorOutline.style.backgroundColor = 'var(--accent-soft)';
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorOutline.style.width = '40px';
+                    cursorOutline.style.height = '40px';
+                    cursorOutline.style.backgroundColor = 'transparent';
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            });
+        }
+
+        // Header Scroll & Progress Bar
+        const header = document.querySelector('header');
+        const progressBar = document.querySelector('.scroll-progress');
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+
+            if (progressBar) progressBar.style.width = scrolled + '%';
+
+            if (winScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Logic
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const menuClose = document.querySelector('.mm-close');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mmLinks = document.querySelectorAll('.mm-links a');
+
+        const toggleMenu = (open) => {
+            if (open) {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                gsap.from('.mm-links a', {
+                    y: 30,
+                    opacity: 0,
+                    stagger: 0.1,
+                    delay: 0.3,
+                    duration: 0.5,
+                    ease: "power3.out"
+                });
+            } else {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        };
+
+        menuToggle.addEventListener('click', () => toggleMenu(true));
+        menuClose.addEventListener('click', () => toggleMenu(false));
+        mmLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+        // Simple parallax for hero grid
+        gsap.to('.hero-grid', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        // Delicate parallax for the background image
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
+            gsap.to('.hero-bg', {
+                yPercent: 5, /* Very subtle movement */
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        }
+
+        // Map Hover Interactions
+        const locCards = document.querySelectorAll('.loc-card');
+        locCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const locId = card.getAttribute('data-loc');
+                const pt = document.getElementById('pt-' + locId);
+                if (pt) pt.classList.add('active');
+            });
+            card.addEventListener('mouseleave', () => {
+                const locId = card.getAttribute('data-loc');
+                const pt = document.getElementById('pt-' + locId);
+                if (pt) pt.classList.remove('active');
+            });
+        });
+
+        // Section Reveal Animations
+        const revealElements = document.querySelectorAll('section, .about-grid, .leadership-grid, .services-stack, .contact-container');
+        revealElements.forEach(el => {
+            el.classList.add('reveal-hidden');
+            ScrollTrigger.create({
+                trigger: el,
+                start: "top 85%",
+                onEnter: () => el.classList.add('reveal-visible'),
+                once: true
+            });
+        });
+
+        // Dynamic Counters
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 90%",
+                onEnter: () => {
+                    gsap.to(counter, {
+                        innerText: target,
+                        duration: 2,
+                        snap: { innerText: 1 },
+                        ease: "power2.out",
+                        onUpdate: function () {
+                            if (target >= 1000) {
+                                counter.innerText = Math.floor(counter.innerText).toLocaleString();
+                            }
+                        }
+                    });
+                },
+                once: true
+            });
+        });
+
+        // Infrastructure Counters (Enhanced Odometer Effect)
+        const infraCounters = document.querySelectorAll('.infra-counter');
+        
+        infraCounters.forEach(counter => {
+            const targetValue = parseInt(counter.getAttribute('data-target'));
+
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 95%", // Trigger slightly earlier for better visibility
+                onEnter: () => {
+                    const obj = { val: 0 };
+                    gsap.to(obj, {
+                        val: targetValue,
+                        duration: 2.5, // Slightly longer for a more impressive 'roll'
+                        ease: "expo.out", // Smooth deceleration
+                        onUpdate: () => {
+                            counter.innerText = Math.floor(obj.val).toLocaleString('en-IN');
+                        }
+                    });
+                },
+                once: true
+            });
+        });
+
+        // Timeline Scroll Animation
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineLine = document.querySelector('.timeline-progress-line');
+
+        if (timelineItems.length > 0 && timelineLine) {
+            // Animate the line height as we scroll
+            gsap.to(timelineLine, {
+                height: "100%",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".timeline",
+                    start: "top 20%",
+                    end: "bottom 80%",
+                    scrub: true
+                }
+            });
+
+            // Animate individual items
+            timelineItems.forEach((item, index) => {
+                const dot = item.querySelector('.timeline-dot');
+                const content = item.querySelectorAll('.timeline-year, .timeline-content, .timeline-client');
+
+                gsap.from(content, {
+                    x: index % 2 === 0 ? -30 : 30,
+                    opacity: 0,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                // Activate dot when reached
+                ScrollTrigger.create({
+                    trigger: item,
+                    start: "top 50%",
+                    onEnter: () => dot.classList.add('active'),
+                    onLeaveBack: () => dot.classList.remove('active')
+                });
+            });
+        }
+
+        // Image Fallback & Google Link Redirection
+        const truckFallbacks = {
+            'hero': {
+                local: '/truck_6.jpg',
+                remote: 'https://images.pexels.com/photos/11491714/pexels-photo-11491714.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                pageUrl: 'https://www.pexels.com/photo/truck-on-the-road-11491714/',
+                varName: '--hero-bg-url',
+                selector: '.hero'
+            },
+            'about': {
+                local: '/my_truck.jpg',
+                remote: 'https://images.pexels.com/photos/36028615/pexels-photo-36028615.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                pageUrl: 'https://www.pexels.com/photo/bright-orange-and-blue-truck-on-nigerian-road-36028615/',
+                varName: '--about-bg-url',
+                selector: '.about-image-wrapper'
+            }
+        };
+
+        Object.keys(truckFallbacks).forEach(key => {
+            const data = truckFallbacks[key];
+            const img = new Image();
+            img.src = data.remote;
+            img.onerror = () => {
+                console.warn(`Remote image ${data.remote} failed. Using local fallback.`);
+                document.documentElement.style.setProperty(data.varName, `url('${data.local}')`);
+            };
+            const makeClickable = () => {
+                const element = document.querySelector(data.selector);
+                if (element) {
+                    element.style.cursor = 'pointer';
+                    element.setAttribute('title', 'Click to view original image source');
+                    element.addEventListener('click', (e) => {
+                        if (e.target.closest('a, button')) return;
+                        window.open(data.pageUrl || data.remote, '_blank');
+                    });
+                }
+            };
+            makeClickable();
+        });
+
+        // Contact Form Submission Handler (Web3Forms Integration)
+        const contactForm = document.getElementById('dayalContactForm');
+        const formResponse = document.getElementById('formResponse');
+
+        if (contactForm && formResponse) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const btnSubmit = contactForm.querySelector('.btn-submit');
+                const originalBtnText = btnSubmit.innerText;
+
+                // Loading State
+                btnSubmit.innerText = "Sending...";
+                btnSubmit.disabled = true;
+                formResponse.style.display = "none";
+
+                const formData = new FormData(contactForm);
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(async (response) => {
+                        const result = await response.json();
+                        if (result.success) {
+                            formResponse.innerHTML = '<span class="badge-dot"></span> Message Sent Successfully!';
+                            formResponse.style.color = "var(--text)";
+                            contactForm.reset();
+                        } else {
+                            formResponse.innerHTML = '<span class="badge-dot" style="background-color: #ff4d4d; box-shadow: 0 0 10px #ff4d4d;"></span> ' + (result.message || "Submission failed");
+                            formResponse.style.color = "var(--text)";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Form Error:", error);
+                        formResponse.innerHTML = '<span class="badge-dot" style="background-color: #ff4d4d; box-shadow: 0 0 10px #ff4d4d;"></span> Connectivity Error';
+                    })
+                    .finally(() => {
+                        btnSubmit.innerText = originalBtnText;
+                        btnSubmit.disabled = false;
+                        formResponse.style.display = "inline-flex";
+
+                        // Auto-hide message after 6 seconds
+                        setTimeout(() => {
+                            gsap.to(formResponse, {
+                                opacity: 0,
+                                duration: 0.5,
+                                onComplete: () => {
+                                    formResponse.style.display = "none";
+                                    formResponse.style.opacity = 1;
+                                }
+                            });
+                        }, 6000);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>
