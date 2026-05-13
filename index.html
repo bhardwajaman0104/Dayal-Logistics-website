@@ -2455,15 +2455,8 @@
             }
         }
 
-        /* --- Fix: service panels on mobile not using sticky (breaks layout) --- */
+        /* --- Fix: service panels gap on mobile --- */
         @media (max-width: 768px) {
-            .service-panel {
-                position: relative !important;
-                top: 0 !important;
-                box-shadow: none;
-                margin-bottom: 1rem;
-            }
-
             .services-stack {
                 gap: 1rem;
             }
