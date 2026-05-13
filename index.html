@@ -60,20 +60,21 @@
         }
 
         [data-theme="light"] {
-            /* Light Theme - Graphite + Oxide Red */
-            --bg: #F4F1EC;
+            /* Light Theme - Corporate Blue & Slate */
+            --bg: #F8FAFC;
             --surface: #FFFFFF;
-            --surface-2: #ECE7E1;
-            --text: #11151B;
-            --text-muted: #5A6572;
-            --border: #D8D2CA;
-            --accent: #B54032;
-            --accent-rgb: 181, 64, 50;
-            --accent-hover: #982F23;
-            --accent-soft: #F5E3DF;
-            --navy: #23344D;
-            --gold: #B28A3E;
-            --nav-bg: rgba(244, 241, 236, 0.85);
+            --surface-2: #F1F5F9;
+            --text: #0F172A;
+            --text-muted: #475569;
+            --border: #E2E8F0;
+            --accent: #2563EB;
+            --accent-rgb: 37, 99, 235;
+            --accent-hover: #1D4ED8;
+            --accent-soft: #EFF6FF;
+            --navy: #0F172A;
+            --gold: #D4A84C;
+
+            --nav-bg: rgba(248, 250, 252, 0.85);
         }
 
         /* Reset & Base Styles */
@@ -465,7 +466,7 @@
         }
 
         [data-theme="light"] .hero-bg {
-            background: linear-gradient(to bottom, rgba(244, 241, 236, 0.4), rgba(244, 241, 236, 0.7)), var(--hero-bg-url) center/cover no-repeat;
+            background: linear-gradient(to bottom, rgba(248, 250, 252, 0.4), rgba(248, 250, 252, 0.7)), var(--hero-bg-url) center/cover no-repeat;
             background-color: var(--surface);
         }
 
@@ -2804,14 +2805,14 @@
             <g id="pinA" transform="translate(50, 60)">
                 <path class="map-pin"
                     d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
-                <text y="-20" class="pin-text">A</text>
+                <text y="-20" class="pin-text">Us</text>
             </g>
 
             <!-- Pin B -->
             <g id="pinB" transform="translate(350, 230)">
-                <path class="map-pin"
+                <path class="map-pin" style="fill: #EA4335;"
                     d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
-                <text y="-20" class="pin-text">B</text>
+                <text y="-20" class="pin-text">You</text>
             </g>
 
             <!-- Moving Truck Group -->
