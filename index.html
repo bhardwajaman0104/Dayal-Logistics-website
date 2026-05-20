@@ -945,6 +945,7 @@
             flex-direction: column;
             gap: 2rem;
             margin-top: 4rem;
+            margin-bottom: clamp(3rem, 6vw, 6rem);
             position: relative;
         }
 
@@ -958,40 +959,14 @@
             justify-content: space-between;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            position: sticky;
-            top: var(--stack-base);
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform, opacity;
         }
 
         [data-theme="light"] .service-panel {
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             background: var(--bg);
-        }
-
-        .service-panel:nth-child(1) {
-            top: calc(1 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
-            z-index: 1;
-        }
-
-        .service-panel:nth-child(2) {
-            top: calc(2 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
-            z-index: 2;
-        }
-
-        .service-panel:nth-child(3) {
-            top: calc(3 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
-            z-index: 3;
-        }
-
-        .service-panel:nth-child(4) {
-            top: calc(4 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
-            z-index: 4;
-        }
-
-        .service-panel:nth-child(5) {
-            top: calc(5 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
-            z-index: 5;
         }
 
         .service-content {
@@ -3914,6 +3889,8 @@
                 });
             });
         }
+
+        // Card stacking animation removed per user request
 
         // Local image assets used directly without remote fallback check
 
