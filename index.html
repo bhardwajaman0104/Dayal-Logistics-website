@@ -21,9 +21,8 @@
 
     <!-- CSS -->
     <style>
-        /* CSS Variables & Theming */
+        /* --- Base & Component Styles --- */
         :root {
-            /* Dark Theme (Default) - Graphite + Oxide Red */
             --bg: #0B0E12;
             --surface: #12161C;
             --surface-2: #171C23;
@@ -38,29 +37,28 @@
             --gold: #D4A84C;
             --nav-bg: rgba(11, 14, 18, 0.85);
 
-            /* Typography */
+            
             --font-heading: 'Syne', sans-serif;
             --font-body: 'Instrument Sans', sans-serif;
 
-            /* Layout */
+            
             --container-padding: clamp(1.5rem, 5vw, 4rem);
             --container-max: 1600px;
             --header-height: 90px;
 
-            /* Animation */
+            
             --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-            /* Stacking Cards */
+            
             --stack-offset: clamp(20px, 4vw, 40px);
             --stack-base: 100px;
 
-            /* Image Sources */
+            
             --hero-bg-url: url('dayal_header_new_1.png');
             --about-bg-url: url('dayal_image_2.png');
         }
 
         [data-theme="light"] {
-            /* Light Theme - Corporate Blue & Slate */
             --bg: #F8FAFC;
             --surface: #FFFFFF;
             --surface-2: #F1F5F9;
@@ -72,12 +70,11 @@
             --accent-hover: #1D4ED8;
             --accent-soft: #EFF6FF;
             --navy: #0F172A;
-            --gold: #D4A84C;
+            --gold: #91681A; 
 
             --nav-bg: rgba(248, 250, 252, 0.85);
         }
 
-        /* Reset & Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -104,14 +101,12 @@
             color: #fff;
         }
 
-        /* Utility Classes */
         .container {
             max-width: var(--container-max);
             margin: 0 auto;
             padding: 0 var(--container-padding);
         }
 
-        /* Custom Cursor */
         .cursor-dot {
             position: fixed;
             top: 0;
@@ -122,9 +117,10 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
-            transform: translate(-50%, -50%);
+            
             transition: width 0.2s, height 0.2s, background-color 0.2s;
             display: none;
+            will-change: transform;
         }
 
         .cursor-outline {
@@ -137,12 +133,12 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
+            
             transition: width 0.2s, height 0.2s, background-color 0.2s;
             display: none;
+            will-change: transform;
         }
 
-        /* Section Reveals */
         .reveal-hidden {
             opacity: 0;
             transform: translateY(30px);
@@ -154,15 +150,6 @@
             transform: translateY(0);
         }
 
-        @media (pointer: fine) {
-
-            .cursor-dot,
-            .cursor-outline {
-                display: block;
-            }
-        }
-
-        /* Scroll Progress */
         .scroll-progress {
             position: fixed;
             top: 0;
@@ -173,7 +160,6 @@
             z-index: 10001;
         }
 
-        /* Preloader */
         .preloader {
             position: fixed;
             inset: 0;
@@ -216,7 +202,6 @@
             background: var(--accent);
         }
 
-        /* Advanced Preloader SVG */
         .preloader-route {
             width: 450px;
             height: 250px;
@@ -243,7 +228,7 @@
 
         .map-pin {
             fill: var(--navy);
-            /* Google Maps Blue-ish */
+            
             stroke: #fff;
             stroke-width: 2;
         }
@@ -274,7 +259,6 @@
             letter-spacing: 1px;
         }
 
-        /* Navigation */
         header {
             position: fixed;
             top: 0;
@@ -445,7 +429,6 @@
             fill: currentColor;
         }
 
-        /* Hero Section */
         .hero {
             position: relative;
             min-height: 100vh;
@@ -455,11 +438,10 @@
             overflow: hidden;
         }
 
-        /* Background Elements */
         .hero-bg {
             position: absolute;
             inset: -5%;
-            /* For parallax */
+            
             z-index: -1;
             background: linear-gradient(to bottom, rgba(11, 14, 18, 0.4), rgba(11, 14, 18, 0.7)), var(--hero-bg-url) center/cover no-repeat;
             background-color: var(--surface);
@@ -557,9 +539,6 @@
             gap: 2rem;
         }
 
-
-
-        /* Floating Stat Card */
         .stat-card {
             position: absolute;
             right: var(--container-padding);
@@ -615,7 +594,6 @@
             line-height: 1.4;
         }
 
-        /* Trusted Brands Strip */
         .brands-wrapper {
             position: absolute;
             bottom: 0;
@@ -681,126 +659,8 @@
             100% {
                 transform: translateX(-50%);
             }
-
-            /* Works if we duplicate content */
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .stat-card {
-                position: relative;
-                right: auto;
-                top: auto;
-                transform: none;
-                margin-top: 4rem;
-                margin-bottom: 2rem;
-                box-shadow: none;
-                background: transparent;
-                padding: 0;
-                border: none;
-                width: auto;
-                backdrop-filter: none;
-            }
-
-            .hero-content {
-                padding-bottom: 6rem;
-            }
-        }
-
-        @media (max-width: 992px) {
-            :root {
-                --container-padding: 1.5rem;
-            }
-
-            section {
-                padding: 5rem 0;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .nav-actions .btn-primary {
-                display: none;
-            }
-
-            .brands-inner {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-
-            .brands-title {
-                margin-right: 0;
-            }
-
-            .about-grid,
-            .leadership-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .summary-val {
-                font-size: 2.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                margin-top: 1rem;
-                font-size: clamp(2rem, 10vw, 3.5rem);
-                line-height: 1.1;
-            }
-
-            .hero-subtitle {
-                margin-bottom: 2.5rem;
-            }
-
-            .hero-cta-group {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 1rem;
-            }
-
-            .btn-primary {
-                width: 100%;
-            }
-
-            .section-title {
-                font-size: 2.2rem;
-            }
-
-            .infra-card {
-                grid-template-columns: 1fr;
-                padding: 1.2rem;
-            }
-
-            .infra-oem {
-                font-size: 1.1rem;
-                border-bottom: 1px solid var(--border);
-                padding-bottom: 0.5rem;
-            }
-
-            .timeline-progress-line {
-                left: 0;
-                transform: none;
-            }
-
-            .testimonials {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form {
-                padding: 1.5rem;
-            }
-        }
-
-        /* Mobile Menu Styles */
         .mobile-menu {
             position: fixed;
             inset: 0;
@@ -853,25 +713,6 @@
             text-transform: uppercase;
         }
 
-        /* Accessibility: Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            ::before,
-            ::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-
-            .cursor-dot,
-            .cursor-outline {
-                display: none !important;
-            }
-        }
-
-        /* --- SECTION BASE --- */
         section {
             padding: 8rem 0;
             position: relative;
@@ -904,7 +745,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* --- ABOUT SECTION --- */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -977,7 +817,6 @@
             transform: scale(1.05);
         }
 
-        /* --- LEADERSHIP SECTION (REDESIGN) --- */
         .leadership {
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -1101,84 +940,6 @@
             color: var(--text-muted);
         }
 
-        @media (max-width: 992px) {
-            .ld-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ld-cell.span-3,
-            .ld-cell.span-2,
-            .ld-cell.span-1,
-            .ld-divider {
-                grid-column: span 1;
-            }
-
-            .ld-cell.md-cell {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-        }
-
-        .about-pillars {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .pillar-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .pillar-card:hover {
-            background: var(--border);
-            transform: translateY(-5px);
-        }
-
-        .pillar-icon {
-            color: var(--accent);
-        }
-
-        .pillar-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        .pillar-title {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .about-image-wrapper {
-            position: relative;
-            width: 100%;
-            padding-bottom: 120%;
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--border);
-        }
-
-        .about-image {
-            position: absolute;
-            inset: 0;
-            background: var(--about-bg-url) center/cover no-repeat;
-            transition: transform 0.8s;
-        }
-
-        .about-image-wrapper:hover .about-image {
-            transform: scale(1.05);
-        }
-
-        /* --- SERVICES SECTION --- */
         .services-stack {
             display: flex;
             flex-direction: column;
@@ -1208,7 +969,6 @@
             background: var(--bg);
         }
 
-        /* Stacking offsets */
         .service-panel:nth-child(1) {
             top: calc(1 * var(--stack-offset) + var(--stack-base) - var(--stack-offset));
             z-index: 1;
@@ -1322,41 +1082,6 @@
             }
         }
 
-        /* Responsive Updates */
-        @media (max-width: 992px) {
-
-            .about-grid,
-            .leadership-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .lead-primary {
-                position: relative;
-                top: 0;
-            }
-
-            .service-panel {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 2rem;
-                padding: 2rem;
-                box-shadow: none;
-            }
-
-            .service-visual {
-                display: none !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-
-            .about-pillars,
-            .lead-secondary-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* --- NETWORK SECTION --- */
         .network {
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -1495,7 +1220,6 @@
             padding: 2rem;
         }
 
-        /* Stylized SVG Map Base */
         .india-map {
             width: 100%;
             height: 100%;
@@ -1542,7 +1266,6 @@
             }
         }
 
-        /* --- PARTNERS SECTION --- */
         .partners-header {
             text-align: center;
             margin-bottom: 5rem;
@@ -1617,7 +1340,7 @@
             border-bottom: 1px solid var(--border);
             background: var(--surface);
             overflow: hidden;
-            /* Hardware acceleration to prevent shaking */
+            
             will-change: transform;
         }
 
@@ -1627,7 +1350,7 @@
             align-items: center;
             width: max-content;
             animation: marqueeScroll 40s linear infinite;
-            /* Prevent jitter */
+            
             backface-visibility: hidden;
             perspective: 1000px;
         }
@@ -1638,7 +1361,7 @@
             gap: 1rem;
             text-decoration: none;
             color: inherit;
-            /* Rigid width to prevent shaking when images switch */
+            
             min-width: 200px;
             justify-content: center;
         }
@@ -1651,7 +1374,7 @@
             filter: grayscale(1) brightness(1.2);
             opacity: 0.8;
             transition: all 0.4s;
-            /* Prevent layout shifts */
+            
             aspect-ratio: 3/2;
             flex-shrink: 0;
         }
@@ -1679,7 +1402,6 @@
             }
         }
 
-        /* Testimonial Author Logo */
         .testimonial-author-wrap {
             display: flex;
             align-items: center;
@@ -1698,7 +1420,6 @@
             font-size: 0.95rem;
         }
 
-        /* --- INFRASTRUCTURE SECTION --- */
         .infra-grid {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
@@ -1826,56 +1547,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* Responsive updates */
-        @media (max-width: 992px) {
-
-            .network-grid,
-            .infra-grid,
-            .featured-partners {
-                grid-template-columns: 1fr;
-            }
-
-            .map-wrapper,
-            .infra-summary-panel {
-                position: relative;
-                top: 0;
-            }
-
-            .map-wrapper {
-                height: 400px;
-            }
-
-            .locations-list {
-                max-height: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .locations-list {
-                grid-template-columns: 1fr;
-            }
-
-            .infra-card {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .infra-loc-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .infra-stats {
-                text-align: left;
-                justify-content: flex-start;
-                width: 100%;
-                border-top: 1px dashed var(--border);
-                padding-top: 0.5rem;
-            }
-        }
-
-        /* --- ACHIEVEMENTS SECTION --- */
         .achievements {
             background: var(--bg);
             position: relative;
@@ -1906,7 +1577,7 @@
             left: 50%;
             width: 2px;
             height: 0;
-            /* Animated */
+            
             background: linear-gradient(to bottom, var(--gold), var(--accent));
             transform: translateX(-50%);
             z-index: 1;
@@ -1940,7 +1611,7 @@
             width: 16px;
             height: 16px;
             background: var(--border);
-            /* Initial state */
+            
             border-radius: 50%;
             z-index: 2;
             transition: background 0.4s, transform 0.4s, box-shadow 0.4s;
@@ -2035,7 +1706,6 @@
             line-height: 1;
         }
 
-        /* --- CONTACT SECTION --- */
         .contact {
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -2133,7 +1803,6 @@
             justify-content: center;
         }
 
-        /* --- FOOTER --- */
         .footer {
             background: var(--bg);
             border-top: 1px solid var(--accent);
@@ -2197,434 +1866,609 @@
             gap: 2rem;
         }
 
-        @media (max-width: 992px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 0;
-            }
-
-            .timeline-item {
-                width: 100%;
-                padding-left: 2rem;
-                padding-right: 0;
-                text-align: left !important;
-            }
-
-            .timeline-item:nth-child(even),
-            .timeline-item:nth-child(odd) {
-                left: 0;
-            }
-
-            .timeline-item:nth-child(even) .timeline-dot,
-            .timeline-item:nth-child(odd) .timeline-dot {
-                left: -8px;
-                right: auto;
-            }
-
-            .testimonials {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-        }
-
-        /* =============================================
-           COMPREHENSIVE MOBILE OPTIMISATION
-           ============================================= */
-
-        /* --- Small phones (≤480px) --- */
-        @media (max-width: 480px) {
-            :root {
-                --container-padding: 1rem;
-                --header-height: 70px;
-            }
-
-            /* Hero */
-            .hero {
-                min-height: 100svh;
-                padding-top: var(--header-height);
-            }
-
-            .hero-title {
-                font-size: clamp(2rem, 11vw, 3rem);
-                line-height: 1.05;
-                margin-top: 0.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 0.95rem;
-                margin-bottom: 2rem;
-            }
-
-            .hero-cta-group {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .btn-primary {
-                width: 100%;
-                padding: 0.9rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
-            /* Stat card — hide on very small screens, avoid overlap */
-            .stat-card {
-                display: none;
-            }
-
-            /* Brands strip */
-            .brands-inner {
-                padding: 1rem 0;
-            }
-
-            .brand-item {
-                font-size: 1.1rem;
-            }
-
-            /* Sections */
-            section {
-                padding: 3.5rem 0;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .section-header {
-                margin-bottom: 2rem;
-            }
-
-            /* About */
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .about-image-wrapper {
-                padding-bottom: 65%;
-            }
-
-            .about-pillars {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                margin-top: 1.5rem;
-            }
-
-            /* Leadership */
-            .lead-secondary-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .lead-img-placeholder {
-                height: 240px;
-            }
-
-            /* Services */
-            .service-panel {
-                padding: 1.5rem;
-                gap: 1.5rem;
-            }
-
-            .service-num {
-                font-size: 2.5rem;
-            }
-
-            .service-title {
-                font-size: 1.4rem;
-            }
-
-            /* Network */
-            .network-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .map-wrapper {
-                height: 280px;
-                padding: 1rem;
-            }
-
-            .locations-list {
-                grid-template-columns: 1fr;
-                max-height: 340px;
-            }
-
-            /* Infrastructure */
-            .infra-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .infra-summary-panel {
-                padding: 1.5rem;
-            }
-
-            .summary-val {
-                font-size: 2.5rem;
-            }
-
-            /* Partners */
-            .featured-partners {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .partner-card {
-                padding: 2rem 1.5rem;
-            }
-
-            /* Timeline */
-            .timeline {
-                margin-bottom: 3rem;
-                padding: 1rem 0 1rem 1.5rem;
-            }
-
-            .timeline-progress-line {
-                left: 0;
-                transform: none;
-            }
-
-            /* Testimonials */
-            .testimonials {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .testimonial-card {
-                padding: 1.5rem;
-            }
-
-            /* Contact */
-            .contact {
-                padding: 3.5rem 0;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            .contact-info-title {
-                font-size: 2rem;
-            }
-
-            .contact-form {
-                padding: 1.5rem 1rem;
-            }
-
-            /* Footer */
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 0.75rem;
-                align-items: flex-start;
-            }
-
-            .footer-meta {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            /* Mobile menu links font size */
-            .mm-links a {
-                font-size: 1.8rem;
-            }
-        }
-
-        /* --- Medium phones (481px – 768px) --- */
-        @media (min-width: 481px) and (max-width: 768px) {
-            :root {
-                --container-padding: 1.25rem;
-            }
-
-            .about-image-wrapper {
-                padding-bottom: 75%;
-            }
-
-            .about-pillars {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .featured-partners {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .infra-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .network-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .map-wrapper {
-                height: 340px;
-            }
-
-            section {
-                padding: 4rem 0;
-            }
-        }
-
-        /* --- Fix: nav actions on small screens --- */
-        @media (max-width: 480px) {
-            .nav-actions {
-                gap: 0.75rem;
-            }
-
-            .theme-toggle {
-                width: 38px;
-                height: 38px;
-            }
-        }
-
-        /* --- Fix: hero brands strip on mobile --- */
-        @media (max-width: 600px) {
-            .brands-wrapper {
-                position: relative;
-            }
-
-            .brands-inner {
-                flex-direction: column;
-                gap: 0.75rem;
-                padding: 1rem 0;
-            }
-
-            .brands-title {
-                margin-right: 0;
-                font-size: 0.7rem;
-            }
-        }
-
-        /* --- Fix: service panels gap on mobile --- */
-        @media (max-width: 768px) {
-            .services-stack {
-                gap: 1rem;
-            }
-        }
-
-        /* --- Fix: preloader SVG size on mobile --- */
-        @media (max-width: 480px) {
-            .preloader-route {
-                width: 280px;
-                height: 180px;
-            }
-
-            .preloader-brand {
-                font-size: 1.4rem;
-            }
-        }
-
-        /* --- Fix: touch targets minimum 44px --- */
-        @media (max-width: 768px) {
-
-            .nav-links a,
-            .footer-link,
-            .btn-primary,
-            .loc-card,
-            .dept-tag {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-            }
-
-            .footer-link,
-            .dept-tag {
-                display: inline-flex;
-            }
-        }
-
-        /* --- Fix: about-image-col order on mobile (image after text feels better) --- */
-        @media (max-width: 992px) {
-            .about-image-col {
-                order: -1;
-            }
-        }
-
-        /* --- Fix: horizontal scroll prevention --- */
         html,
         body {
             overflow-x: hidden;
             max-width: 100vw;
         }
 
-        /* --- Fix: partner marquee on mobile --- */
-        @media (max-width: 480px) {
-            .partner-marquee-wrap {
-                padding: 2rem 0;
-            }
-
-            .pm-item {
-                min-width: 140px;
-            }
-
-            .pm-logo {
-                height: 36px;
-            }
-
-            .partner-marquee {
-                gap: 4rem;
-            }
+        .hero-title .line {
+            transform: translateY(100%);
         }
 
-        /* --- Fix: infra section summary panel --- */
+        .hero-elem {
+            opacity: 0;
+        }
+
+        .stat-card {
+            opacity: 0;
+        }
+
+        .brands-wrapper {
+            transform: translateY(100%);
+        }
+
+
+        /* --- Consolidated Media Queries --- */
+
+        @media (pointer: fine) {
+            .cursor-dot,
+            .cursor-outline {
+            display: block;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            ::before,
+            ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+            }
+
+            .cursor-dot,
+            .cursor-outline {
+            display: none !important;
+            }
+
+        }
+
+        @media (max-width: 1200px) {
+            .stat-card {
+            position: relative;
+            right: auto;
+            top: auto;
+            transform: none;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            box-shadow: none;
+            background: transparent;
+            padding: 0;
+            border: none;
+            width: auto;
+            backdrop-filter: none;
+            }
+
+            .hero-content {
+            padding-bottom: 6rem;
+            }
+
+        }
+
         @media (max-width: 992px) {
-            .infra-summary-panel {
-                position: relative;
-                top: 0;
+            :root {
+            --container-padding: 1.5rem;
             }
-        }
 
-        /* --- NETWORK SECTION --- */
-        .network {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
+            section {
+            padding: 5rem 0;
+            }
 
-        .network-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            .nav-links {
+            display: none;
+            }
+
+            .mobile-menu-toggle {
+            display: block;
+            }
+
+            .nav-actions .btn-primary {
+            display: none;
+            }
+
+            .brands-inner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+            }
+
+            .brands-title {
+            margin-right: 0;
+            }
+
+            .about-grid,
+            .leadership-grid,
+            .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            }
+
+            .summary-val {
+            font-size: 2.5rem;
+            }
+
+            .ld-grid {
+            grid-template-columns: 1fr;
+            }
+
+            .ld-cell.span-3,
+            .ld-cell.span-2,
+            .ld-cell.span-1,
+            .ld-divider {
+            grid-column: span 1;
+            }
+
+            .ld-cell.md-cell {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+            }
+
+            .about-grid,
+            .leadership-grid {
+            grid-template-columns: 1fr;
+            }
+
+            .lead-primary {
+            position: relative;
+            top: 0;
+            }
+
+            .service-panel {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2rem;
+            padding: 2rem;
+            box-shadow: none;
+            }
+
+            .service-visual {
+            display: none !important;
+            }
+
+            .network-grid,
+            .infra-grid,
+            .featured-partners {
+            grid-template-columns: 1fr;
+            }
+
+            .map-wrapper,
+            .infra-summary-panel {
+            position: relative;
+            top: 0;
+            }
+
+            .map-wrapper {
+            height: 400px;
+            }
+
+            .locations-list {
+            max-height: 400px;
+            }
+
+            .contact-grid {
+            grid-template-columns: 1fr;
             gap: 4rem;
+            }
+
+            .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            }
+
+            .about-image-col {
+            order: -1;
+            }
+
+            .infra-summary-panel {
+            position: relative;
+            top: 0;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+            margin-top: 1rem;
+            font-size: clamp(2rem, 10vw, 3.5rem);
+            line-height: 1.1;
+            }
+
+            .hero-subtitle {
+            margin-bottom: 2.5rem;
+            }
+
+            .hero-cta-group {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+            }
+
+            .btn-primary {
+            width: 100%;
+            }
+
+            .section-title {
+            font-size: 2.2rem;
+            }
+
+            .infra-card {
+            grid-template-columns: 1fr;
+            padding: 1.2rem;
+            }
+
+            .infra-oem {
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            }
+
+            .timeline-progress-line {
+            left: 0;
+            transform: none;
+            }
+
+            .testimonials {
+            grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+            padding: 1.5rem;
+            }
+
+            .about-pillars,
+            .lead-secondary-grid {
+            grid-template-columns: 1fr;
+            }
+
+            .locations-list {
+            grid-template-columns: 1fr;
+            }
+
+            .infra-card {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            }
+
+            .infra-loc-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            }
+
+            .infra-stats {
+            text-align: left;
+            justify-content: flex-start;
+            width: 100%;
+            border-top: 1px dashed var(--border);
+            padding-top: 0.5rem;
+            }
+
+            .timeline::before {
+            left: 0;
+            }
+
+            .timeline-item {
+            width: 100%;
+            padding-left: 2rem;
+            padding-right: 0;
+            text-align: left !important;
+            }
+
+            .timeline-item:nth-child(even),
+            .timeline-item:nth-child(odd) {
+            left: 0;
+            }
+
+            .timeline-item:nth-child(even) .timeline-dot,
+            .timeline-item:nth-child(odd) .timeline-dot {
+            left: -8px;
+            right: auto;
+            }
+
+            .footer-bottom {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+            }
+
+            .services-stack {
+            gap: 1rem;
+            }
+
+            .nav-links a,
+            .footer-link,
+            .btn-primary,
+            .loc-card,
+            .dept-tag {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            }
+
+            .footer-link,
+            .dept-tag {
+            display: inline-flex;
+            }
+
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            :root {
+            --container-padding: 1.25rem;
+            }
+
+            .about-image-wrapper {
+            padding-bottom: 75%;
+            }
+
+            .about-pillars {
+            grid-template-columns: 1fr 1fr;
+            }
+
+            .featured-partners {
+            grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            }
+
+            .infra-grid {
+            grid-template-columns: 1fr;
+            }
+
+            .network-grid {
+            grid-template-columns: 1fr;
+            }
+
+            .map-wrapper {
+            height: 340px;
+            }
+
+            section {
+            padding: 4rem 0;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+            .brands-wrapper {
+            position: relative;
+            }
+
+            .brands-inner {
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem 0;
+            }
+
+            .brands-title {
+            margin-right: 0;
+            font-size: 0.7rem;
+            }
+
         }
 
         @media (max-width: 480px) {
-            .services-stack .service-panel {
-                padding: 1.5rem;
+            :root {
+            --container-padding: 1rem;
+            --header-height: 70px;
+            }
+
+            .hero {
+            min-height: 100svh;
+            padding-top: var(--header-height);
+            }
+
+            .hero-title {
+            font-size: clamp(2rem, 11vw, 3rem);
+            line-height: 1.05;
+            margin-top: 0.5rem;
+            }
+
+            .hero-subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            }
+
+            .hero-cta-group {
+            flex-direction: column;
+            gap: 0.75rem;
+            }
+
+            .btn-primary {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            font-size: 0.9rem;
+            }
+
+            .stat-card {
+            display: none;
+            }
+
+            .brands-inner {
+            padding: 1rem 0;
+            }
+
+            .brand-item {
+            font-size: 1.1rem;
+            }
+
+            section {
+            padding: 3.5rem 0;
+            }
+
+            .section-title {
+            font-size: 1.8rem;
+            }
+
+            .section-header {
+            margin-bottom: 2rem;
+            }
+
+            .about-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            }
+
+            .about-image-wrapper {
+            padding-bottom: 65%;
+            }
+
+            .about-pillars {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            }
+
+            .lead-secondary-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            }
+
+            .lead-img-placeholder {
+            height: 240px;
+            }
+
+            .service-panel {
+            padding: 1.5rem;
+            gap: 1.5rem;
             }
 
             .service-num {
-                font-size: 2.5rem;
+            font-size: 2.5rem;
             }
 
             .service-title {
-                font-size: 1.4rem;
+            font-size: 1.4rem;
             }
+
+            .network-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            }
+
+            .map-wrapper {
+            height: 280px;
+            padding: 1rem;
+            }
+
+            .locations-list {
+            grid-template-columns: 1fr;
+            max-height: 340px;
+            }
+
+            .infra-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            }
+
+            .infra-summary-panel {
+            padding: 1.5rem;
+            }
+
+            .summary-val {
+            font-size: 2.5rem;
+            }
+
+            .featured-partners {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            }
+
+            .partner-card {
+            padding: 2rem 1.5rem;
+            }
+
+            .timeline {
+            margin-bottom: 3rem;
+            padding: 1rem 0 1rem 1.5rem;
+            }
+
+            .timeline-progress-line {
+            left: 0;
+            transform: none;
+            }
+
+            .testimonials {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            }
+
+            .testimonial-card {
+            padding: 1.5rem;
+            }
+
+            .contact {
+            padding: 3.5rem 0;
+            }
+
+            .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            }
+
+            .contact-info-title {
+            font-size: 2rem;
+            }
+
+            .contact-form {
+            padding: 1.5rem 1rem;
+            }
+
+            .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            }
+
+            .footer-bottom {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+            }
+
+            .footer-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+            }
+
+            .mm-links a {
+            font-size: 1.8rem;
+            }
+
+            .nav-actions {
+            gap: 0.75rem;
+            }
+
+            .theme-toggle {
+            width: 38px;
+            height: 38px;
+            }
+
+            .preloader-route {
+            width: 280px;
+            height: 180px;
+            }
+
+            .preloader-brand {
+            font-size: 1.4rem;
+            }
+
+            .partner-marquee-wrap {
+            padding: 2rem 0;
+            }
+
+            .pm-item {
+            min-width: 140px;
+            }
+
+            .pm-logo {
+            height: 36px;
+            }
+
+            .partner-marquee {
+            gap: 4rem;
+            }
+
+            .services-stack .service-panel {
+            padding: 1.5rem;
+            }
+
         }
     </style>
 </head>
@@ -2643,7 +2487,7 @@
         <div class="mm-header">
             <a href="#" class="logo">Dayal Logistics <span class="logo-dot"></span></a>
             <button class="mm-close" aria-label="Close Menu">
-                <svg viewBox="0 0 24 24">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </button>
@@ -2664,7 +2508,7 @@
             <span class="brand-text">DAYAL LOGISTICS</span>
         </div>
 
-        <svg class="preloader-route" viewBox="0 0 400 300">
+        <svg class="preloader-route" viewBox="0 0 400 300" aria-hidden="true">
             <!-- Organic Road Path based on User Image -->
             <path id="mainPath" class="route-path"
                 d="M50,60 L100,65 C120,65 140,60 150,60 L155,100 C155,120 165,150 180,180 L200,210 L220,230 L250,210 L280,225 L320,240 L350,230" />
@@ -2719,13 +2563,13 @@
             <div class="nav-actions">
                 <button class="theme-toggle" aria-label="Toggle Theme">
                     <!-- Sun Icon (for Dark Theme -> Light) -->
-                    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="icon-sun" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path
                             d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z">
                         </path>
                     </svg>
                     <!-- Moon Icon (for Light Theme -> Dark) -->
-                    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="icon-moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path
                             d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.7302 13.1953 21.9961 11.8964C21.3283 16.4862 17.3917 20 12.6 20C7.29807 20 3 15.7019 3 10.4C3 6.13459 5.81156 2.5222 9.74235 1.34812C9.91039 3.14925 10 4.9922 10 7ZM12.6 22C19.0066 22 24.2 16.8066 24.2 10.4C24.2 8.71887 23.8427 7.12071 23.2082 5.68887C22.6106 5.37895 21.961 5.2 21.2828 5.2C17.0709 5.2 13.6566 8.6143 13.6566 12.8262C13.6566 15.0116 14.5768 16.9856 16.0592 18.3648C15.0347 18.7845 13.8821 19.0152 12.6828 19.0152C7.94056 19.0152 4.09673 15.1714 4.09673 10.4292C4.09673 6.6433 6.54516 3.42838 10.0211 2.29341C8.75169 1.13968 7.04257 0.429199 5.18281 0.429199C2.32049 0.429199 0 2.74968 0 5.612C0 14.6629 7.33705 22 16.388 22C17.7475 22 19.068 21.8341 20.3288 21.5298C18.1065 23.0766 15.4414 24 12.6 24C6.1934 24 1 18.8066 1 12.4C1 9.38466 2.14819 6.63737 4.01518 4.57723C4.54228 9.37978 8.60835 13.2 13.6 13.2C15.9388 13.2 18.0689 12.285 19.6455 10.7937C20.4079 13.0645 20.8 15.4859 20.8 18C20.8 19.6644 20.4705 21.252 19.8732 22.709C19.1234 22.899 18.3414 23 17.538 23C13.4395 23 9.77197 21.1611 7.2882 18.261C8.84716 18.7366 10.4856 19 12.2 19C15.011 19 17.6521 18.2721 19.9234 17.0094C18.1517 19.4673 15.228 21 11.9 21C8.36629 21 5.25055 19.2081 3.42168 16.4385C4.78657 17.4332 6.45277 18 8.24354 18C13.0531 18 16.9547 14.103 16.9547 9.2934C16.9547 8.01254 16.6787 6.79726 16.1832 5.70776C18.5204 7.02796 20.0828 9.53173 20.0828 12.4C20.0828 16.4869 16.7695 19.8 12.6828 19.8C9.58557 19.8 6.93282 17.8966 5.86797 15.1764C7.03713 16.3248 8.6366 17 10.3828 17C14.1384 17 17.1828 13.9556 17.1828 10.2C17.1828 8.29177 16.3957 6.56708 15.132 5.33465C17.0782 6.18029 18.4828 8.11717 18.4828 10.4C18.4828 13.5878 15.8944 16.1762 12.7066 16.1762C10.0267 16.1762 7.77334 14.3486 7.06536 11.8744C8.01015 13.1119 9.52981 13.8828 11.2328 13.8828C14.0722 13.8828 16.3828 11.5721 16.3828 8.73281C16.3828 7.21853 15.7275 5.85698 14.6756 4.90833C16.148 5.61749 17.1828 7.10629 17.1828 8.82619C17.1828 11.2562 15.2129 13.2262 12.7828 13.2262C10.826 13.2262 9.16723 11.9546 8.56306 10.1837C9.36262 11.0825 10.5363 11.6433 11.8435 11.6433C13.8864 11.6433 15.5435 9.98622 15.5435 7.9433C15.5435 6.78216 15.0118 5.74614 14.1793 5.06894C15.2536 5.68817 15.9828 6.84065 15.9828 8.16335C15.9828 10.1384 14.3813 11.74 12.4062 11.74C10.8407 11.74 9.51034 10.7329 9.03437 9.31754C9.72146 10.0265 10.6865 10.4578 11.7424 10.4578C13.3422 10.4578 14.6424 9.15764 14.6424 7.55781C14.6424 6.60228 14.1795 5.75549 13.4542 5.23414C14.2818 5.76561 14.8252 6.68595 14.8252 7.73468C14.8252 9.2941 13.5606 10.5587 12.0012 10.5587C10.7423 10.5587 9.6766 9.73406 9.30906 8.58022C9.88096 9.14157 10.6698 9.48866 11.5323 9.48866C12.8254 9.48866 13.8752 8.43887 13.8752 7.1458C13.8752 6.37568 13.4984 5.69363 12.9231 5.26629C13.5702 5.72895 14.001 6.47167 14.001 7.30452C14.001 8.52837 13.0089 9.52042 11.785 9.52042C10.7818 9.52042 9.93489 8.8532 9.61793 7.9255C10.0984 8.3619 10.7284 8.62939 11.4184 8.62939C12.4439 8.62939 13.2753 7.79796 13.2753 6.77252C13.2753 6.16017 12.9774 5.61746 12.5117 5.27092C13.0319 5.66696 13.3642 6.27668 13.3642 6.96105C13.3642 7.9406 12.5695 8.73523 11.59 8.73523C10.7812 8.73523 10.0991 8.1945 9.83542 7.44781C10.2319 7.78457 10.7431 7.98806 11.2982 7.98806C12.1158 7.98806 12.7786 7.32525 12.7786 6.50762C12.7786 6.01594 12.5367 5.57211 12.1558 5.30391C12.5714 5.63665 12.8368 6.13845 12.8368 6.6993C12.8368 7.48151 12.2025 8.1158 11.4203 8.1158C10.7712 8.1158 10.2241 7.67807 10.0076 7.07826C10.3344 7.33649 10.7495 7.49051 11.1963 7.49051C11.849 7.49051 12.3781 6.96136 12.3781 6.30869C12.3781 5.91352 12.1818 5.56455 11.8715 5.35338C12.2046 5.6324 12.4172 6.04419 12.4172 6.5037C12.4172 7.12933 11.9099 7.63662 11.2843 7.63662C10.7634 7.63662 10.325 7.28314 10.1471 6.79953C10.4093 7.0016 10.7416 7.12151 11.0963 7.12151C11.6166 7.12151 12.0384 6.69974 12.0384 6.17945C12.0384 5.86154 11.8804 5.58066 11.63 5.41372C11.8951 5.64808 12.0647 5.9866 12.0647 6.36394C12.0647 6.86259 11.6606 7.26671 11.1619 7.26671C10.7441 7.26671 10.3934 6.98229 10.2486 6.59265C10.457 6.74936 10.7196 6.84311 11.0028 6.84311C11.417 6.84311 11.7527 6.50734 11.7527 6.09315C11.7527 5.83907 11.626 5.61466 11.4251 5.48154C11.6341 5.67914 11.7686 5.96105 11.7686 6.27318C11.7686 6.67156 11.4457 6.99446 11.0473 6.99446C10.7121 6.99446 10.4309 6.76566 10.313 6.45265C10.4772 6.57463 10.6834 6.64754 10.906 6.64754C11.2346 6.64754 11.501 6.38116 11.501 6.05261C11.501 5.85045 11.3995 5.67191 11.2384 5.56515C11.4026 5.73357 11.5086 5.96162 11.5086 6.21303C11.5086 6.52981 11.2518 6.78663 10.935 6.78663C10.6675 6.78663 10.4429 6.60334 10.3475 6.35246C10.476 6.44754 10.6369 6.50424 10.8093 6.50424C11.0682 6.50424 11.2781 6.29437 11.2781 6.03546C11.2781 5.87532 11.1973 5.73403 11.0684 5.64861C11.1963 5.79247 11.2796 5.98188 11.2796 6.18956C11.2796 6.44026 11.0763 6.64353 10.8256 6.64353C10.6121 6.64353 10.4328 6.49547 10.3556 6.29524Z">
                         </path>
@@ -2733,7 +2577,7 @@
                 </button>
                 <a href="#contact" class="btn-primary">Get In Touch</a>
                 <button class="mobile-menu-toggle" aria-label="Menu">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" />
                     </svg>
@@ -2843,7 +2687,7 @@
                 <div class="about-pillars">
                     <div class="pillar-card">
                         <div class="pillar-icon">
-                            <svg viewBox="0 0 24 24">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor"
                                     stroke-width="2" fill="none" />
                             </svg>
@@ -2852,7 +2696,7 @@
                     </div>
                     <div class="pillar-card">
                         <div class="pillar-icon">
-                            <svg viewBox="0 0 24 24">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor"
                                     stroke-width="2" fill="none" />
                             </svg>
@@ -2861,7 +2705,7 @@
                     </div>
                     <div class="pillar-card">
                         <div class="pillar-icon">
-                            <svg viewBox="0 0 24 24">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M4 22h16M12 2v20M8 22V10l4-8 4 8v12" stroke="currentColor" stroke-width="2"
                                     fill="none" />
                             </svg>
@@ -2870,7 +2714,7 @@
                     </div>
                     <div class="pillar-card">
                         <div class="pillar-icon">
-                            <svg viewBox="0 0 24 24">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path
                                     d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 15l-4-4 1.4-1.4 2.6 2.6 6.6-6.6L18 9l-8 8z"
                                     fill="currentColor" />
@@ -2975,7 +2819,7 @@
                     </div>
                 </div>
                 <div class="service-visual">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
                             d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.94 2.5H17V9.5h2.5zM18 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
                     </svg>
@@ -2995,7 +2839,7 @@
                     </div>
                 </div>
                 <div class="service-visual">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
                     </svg>
                 </div>
@@ -3014,7 +2858,7 @@
                     </div>
                 </div>
                 <div class="service-visual">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
                             d="M22 14V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zM4 6h16v8H4V6zm5 12h6v2H9z" />
                     </svg>
@@ -3034,7 +2878,7 @@
                     </div>
                 </div>
                 <div class="service-visual">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path
                             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
                     </svg>
@@ -3054,7 +2898,7 @@
                     </div>
                 </div>
                 <div class="service-visual">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
                     </svg>
                 </div>
@@ -3139,7 +2983,7 @@
 
                 <div class="map-wrapper">
                     <!-- Accurate Geographic SVG representation of India -->
-                    <svg class="india-map" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid meet">
+                    <svg class="india-map" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
                         <!-- Precise India Boundary Path -->
                         <path class="map-boundary"
                             d="M305,25 L315,35 L330,25 L345,45 L340,65 L360,75 L355,95 L370,110 L350,130 L345,150 L355,170 L340,190 L360,210 L375,200 L395,215 L405,235 L425,230 L445,245 L465,240 L485,255 L500,280 L485,300 L495,320 L480,340 L490,360 L470,380 L450,370 L430,385 L410,380 L390,395 L370,385 L350,400 L330,420 L320,440 L310,470 L300,500 L290,530 L280,560 L270,590 L260,620 L250,650 L240,670 L230,685 L220,670 L210,640 L200,610 L190,580 L180,550 L170,520 L160,490 L150,460 L140,430 L130,400 L120,380 L100,370 L80,360 L70,340 L85,320 L75,300 L90,280 L80,260 L95,240 L85,220 L100,200 L120,190 L140,185 L155,165 L145,145 L160,125 L175,110 L170,90 L185,75 L200,85 L215,70 L220,50 L235,35 L250,20 L265,35 L280,25 L295,35 Z"
@@ -3533,7 +3377,7 @@
                     <div class="contact-details">
                         <div class="contact-detail-item">
                             <div class="cd-icon">
-                                <svg viewBox="0 0 24 24">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
                                     <path
                                         d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                                 </svg>
@@ -3547,7 +3391,7 @@
                         </div>
                         <div class="contact-detail-item">
                             <div class="cd-icon">
-                                <svg viewBox="0 0 24 24">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
                                     <path
                                         d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                                 </svg>
@@ -3560,7 +3404,7 @@
                         </div>
                         <div class="contact-detail-item">
                             <div class="cd-icon">
-                                <svg viewBox="0 0 24 24">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
                                     <path
                                         d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM15 18H9v-2h6v2zm0-4H9v-2h6v2z" />
                                 </svg>
@@ -3582,19 +3426,19 @@
 
                         <div class="form-group">
                             <input type="text" id="contactName" name="name" class="form-control" placeholder="Your Name"
-                                required>
+                                aria-label="Your Name" required>
                         </div>
                         <div class="form-group">
                             <input type="text" id="contactCompany" name="company" class="form-control"
-                                placeholder="Company Name" required>
+                                placeholder="Company Name" aria-label="Company Name" required>
                         </div>
                         <div class="form-group">
                             <input type="tel" id="contactPhone" name="phone" class="form-control"
-                                placeholder="Phone Number" required>
+                                placeholder="Phone Number" aria-label="Phone Number" required>
                         </div>
                         <div class="form-group">
                             <textarea id="contactMessage" name="message" class="form-control" placeholder="Your Message"
-                                required></textarea>
+                                aria-label="Your Message" required></textarea>
                         </div>
                         <button type="submit" class="btn-primary btn-submit">
                             Send Enquiry
@@ -3803,40 +3647,66 @@
             }
         });
 
-        // Custom Cursor
+        // Custom Cursor (GSAP optimized to prevent layout thrashing)
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
 
-        // Only run cursor code if device has fine pointer
         if (window.matchMedia('(pointer: fine)').matches) {
+            // Set initial states via GSAP
+            gsap.set([cursorDot, cursorOutline], { xPercent: -50, yPercent: -50 });
+            
+            const setCursorX = gsap.quickSetter(cursorDot, "x", "px");
+            const setCursorY = gsap.quickSetter(cursorDot, "y", "px");
+            
+            const pos = { x: 0, y: 0 };
+            const mouse = { x: 0, y: 0 };
+            
             window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
-
-                cursorDot.style.left = `${posX}px`;
-                cursorDot.style.top = `${posY}px`;
-
-                // Slight delay for outline
-                cursorOutline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 150, fill: "forwards" });
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                
+                // Position the dot instantly
+                setCursorX(mouse.x);
+                setCursorY(mouse.y);
+            });
+            
+            // Smoothly animate the outline position on the GSAP ticker
+            gsap.ticker.add(() => {
+                pos.x += (mouse.x - pos.x) * 0.15;
+                pos.y += (mouse.y - pos.y) * 0.15;
+                gsap.set(cursorOutline, { x: pos.x, y: pos.y });
             });
 
-            // Hover effects for interactive elements
+            // Hover effects for interactive elements using GSAP
             const interactives = document.querySelectorAll('a, button, .play-btn');
             interactives.forEach(el => {
                 el.addEventListener('mouseenter', () => {
-                    cursorOutline.style.width = '60px';
-                    cursorOutline.style.height = '60px';
-                    cursorOutline.style.backgroundColor = 'var(--accent-soft)';
-                    cursorDot.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    gsap.to(cursorOutline, {
+                        width: 60,
+                        height: 60,
+                        backgroundColor: 'var(--accent-soft)',
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                    gsap.to(cursorDot, {
+                        scale: 0.5,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
                 });
                 el.addEventListener('mouseleave', () => {
-                    cursorOutline.style.width = '40px';
-                    cursorOutline.style.height = '40px';
-                    cursorOutline.style.backgroundColor = 'transparent';
-                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                    gsap.to(cursorOutline, {
+                        width: 40,
+                        height: 40,
+                        backgroundColor: 'transparent',
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                    gsap.to(cursorDot, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
                 });
             });
         }
