@@ -21,6 +21,8 @@
 
     <!-- CSS -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
         /* --- Base & Component Styles --- */
         :root {
             --bg: #0B0E12;
@@ -37,9 +39,9 @@
             --gold: #D4A84C;
             --nav-bg: rgba(11, 14, 18, 0.85);
 
-            
-            --font-heading: 'Syne', sans-serif;
-            --font-body: 'Instrument Sans', sans-serif;
+            --font-display: 'Barlow Condensed', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-heading: var(--font-display);
 
             
             --container-padding: clamp(1.5rem, 5vw, 4rem);
@@ -89,7 +91,7 @@
             font-family: var(--font-body);
             background-color: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            overflow-x: clip;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -104,7 +106,8 @@
         .container {
             max-width: var(--container-max);
             margin: 0 auto;
-            padding: 0 var(--container-padding);
+            padding-left: var(--container-padding);
+            padding-right: var(--container-padding);
         }
 
         .cursor-dot {
@@ -173,7 +176,7 @@
 
         .preloader-brand {
             font-family: var(--font-heading);
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: var(--text);
             margin-bottom: 1.5rem;
@@ -550,7 +553,7 @@
             border: 1px solid var(--border);
             padding: 2rem;
             border-radius: 20px;
-            width: 280px;
+            width: 320px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             z-index: 5;
         }
@@ -705,7 +708,7 @@
         }
 
         .mm-links a {
-            font-family: var(--font-heading);
+            font-family: var(--font-body);
             font-size: 2.5rem;
             font-weight: 700;
             text-decoration: none;
@@ -738,9 +741,10 @@
         }
 
         .section-subtitle {
+            font-family: var(--font-body);
             font-size: 1.1rem;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -907,9 +911,9 @@
         }
 
         .ld-name {
-            font-family: var(--font-heading);
+            font-family: var(--font-body);
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text);
             margin-bottom: 0.75rem;
         }
@@ -941,12 +945,19 @@
         }
 
         .services-stack {
+            --numcards: 5;
+            --card-height: 380px;
+            --card-margin: 40px;
+            --card-top-offset: 40px;
+
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: var(--card-margin);
             margin-top: 4rem;
             margin-bottom: clamp(3rem, 6vw, 6rem);
             position: relative;
+            padding-bottom: calc(var(--numcards) * var(--card-top-offset));
+            view-timeline-name: --cards-element-scrolls-in-body;
         }
 
         .service-panel {
@@ -960,13 +971,51 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease;
             will-change: transform, opacity;
+
+            /* Sticky & Stacking Setup */
+            position: sticky;
+            top: calc(var(--index) * var(--card-top-offset));
+            height: var(--card-height);
+            transform-origin: 50% 0%;
+            
+            /* Prevent horizontal overflow */
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         [data-theme="light"] .service-panel {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             background: var(--bg);
+        }
+
+        /* Set indexes for the stacking cards */
+        .service-panel:nth-child(1) { --index: 1; }
+        .service-panel:nth-child(2) { --index: 2; }
+        .service-panel:nth-child(3) { --index: 3; }
+        .service-panel:nth-child(4) { --index: 4; }
+        .service-panel:nth-child(5) { --index: 5; }
+
+        @supports (animation-timeline: view()) {
+            @keyframes scale {
+                to {
+                    transform: scale(calc(1.06 - calc(0.06 * var(--reverse-index))));
+                }
+            }
+
+            .service-panel {
+                --index0: calc(var(--index) - 1); /* 0-based index */
+                --reverse-index: calc(var(--numcards) - var(--index0)); /* reverse index */
+                
+                --start-range: calc(var(--index0) / var(--numcards) * 100%);
+                --end-range: calc((var(--index)) / var(--numcards) * 100%);
+
+                animation: linear scale forwards;
+                animation-timeline: --cards-element-scrolls-in-body;
+                animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+            }
         }
 
         .service-content {
@@ -1662,8 +1711,9 @@
         }
 
         .testimonial-author {
-            font-family: var(--font-heading);
+            font-family: var(--font-body);
             font-size: 1rem;
+            font-weight: 600;
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -1843,7 +1893,7 @@
 
         html,
         body {
-            overflow-x: hidden;
+            overflow-x: clip;
             max-width: 100vw;
         }
 
@@ -2141,7 +2191,11 @@
             }
 
             .services-stack {
-            gap: 1rem;
+            --card-height: 480px;
+            --card-margin: 24px;
+            --card-top-offset: 24px;
+            gap: var(--card-margin);
+            padding-bottom: calc(var(--numcards) * var(--card-top-offset));
             }
 
             .nav-links a,
@@ -2421,7 +2475,7 @@
             }
 
             .preloader-brand {
-            font-size: 1.4rem;
+            font-size: 1.75rem;
             }
 
             .partner-marquee-wrap {
@@ -2438,6 +2492,14 @@
 
             .partner-marquee {
             gap: 4rem;
+            }
+
+            .services-stack {
+            --card-height: 460px;
+            --card-margin: 16px;
+            --card-top-offset: 16px;
+            gap: var(--card-margin);
+            padding-bottom: calc(var(--numcards) * var(--card-top-offset));
             }
 
             .services-stack .service-panel {
@@ -3469,6 +3531,7 @@
             stagger: 0.15,
             duration: 1,
             ease: "power3.out",
+            clearProps: "transform",
             scrollTrigger: {
                 trigger: "#servicesStack",
                 start: "top 85%",
@@ -3501,7 +3564,7 @@
             }, "-=0.2")
             .to("#activePath", {
                 strokeDashoffset: 0,
-                duration: 4,
+                duration: 3,
                 ease: "power1.inOut"
             }, "pathAnim")
             .to("#truckGroup", {
@@ -3511,7 +3574,7 @@
                     align: "#mainPath",
                     alignOrigin: [0.5, 0.5]
                 },
-                duration: 4,
+                duration: 3,
                 ease: "power1.inOut"
             }, "pathAnim")
             .to("#pinB", {
@@ -3587,8 +3650,8 @@
             }
         });
 
-        // SAFETY TIMEOUT: Force hide preloader if it takes more than 5 seconds
-        const preloaderTimeout = setTimeout(hidePreloader, 5000);
+        // SAFETY TIMEOUT: Force hide preloader if it takes more than 4 seconds
+        const preloaderTimeout = setTimeout(hidePreloader, 4000);
 
         window.addEventListener('load', () => {
             isWindowLoaded = true;
