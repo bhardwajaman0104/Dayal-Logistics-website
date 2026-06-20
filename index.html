@@ -115,36 +115,75 @@
             padding-right: var(--container-padding);
         }
 
-        .cursor-dot {
+        .custom-cursor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent);
-            border-radius: 50%;
+            inset: 0;
             pointer-events: none;
             z-index: 10000;
-            
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            display: none;
-            will-change: transform;
+            opacity: 0;
+            will-change: opacity;
+            transition: opacity 0.3s ease;
         }
 
-        .cursor-outline {
-            position: fixed;
+        .cursor-rope {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .cursor-rope-path {
+            stroke: var(--accent);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.6;
+            will-change: d;
+        }
+
+        .cursor-badge {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--accent);
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            display: none;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             will-change: transform;
+            transform-origin: center;
+            margin-top: -19px;
+            margin-left: -19px;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+        }
+
+        .cursor-icon {
+            width: 18px;
+            height: 18px;
+            color: var(--text);
+            transition: color 0.3s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Hover Scale States */
+        .custom-cursor.hovered .cursor-badge {
+            width: 48px;
+            height: 48px;
+            margin-top: -24px;
+            margin-left: -24px;
+            border-color: var(--accent);
+            box-shadow: 0 6px 18px rgba(var(--accent-rgb), 0.25);
+        }
+
+        .custom-cursor.hovered .cursor-icon {
+            color: var(--accent);
+            transform: scale(1.1);
         }
 
         .reveal-hidden {
@@ -177,94 +216,49 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            transition: background-color var(--transition);
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .preloader-brand {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text);
-            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            gap: 0.6rem;
             overflow: hidden;
         }
 
-        .preloader-brand span {
+        .brand-word {
             display: inline-block;
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             transform: translateY(100%);
         }
 
-        .preloader-bar-bg {
-            width: 200px;
-            height: 1px;
-            background: var(--border);
-            position: relative;
-            overflow: hidden;
+        .brand-word.highlight {
+            color: var(--accent);
         }
 
-        .preloader-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--accent);
-        }
-
-        .preloader-route {
-            width: 450px;
-            height: 250px;
+        .preloader-road-svg {
+            width: 500px;
+            height: 150px;
             overflow: visible;
-            margin-top: 2rem;
-        }
-
-        .route-path {
-            fill: none;
-            stroke: var(--border);
-            stroke-width: 6;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            opacity: 0.3;
-        }
-
-        .route-path-active {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 6;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .map-pin {
-            fill: var(--navy);
-            
-            stroke: #fff;
-            stroke-width: 2;
-        }
-
-        .pin-text {
-            font-family: var(--font-heading);
-            font-size: 14px;
-            font-weight: 800;
-            fill: #fff;
-            text-anchor: middle;
-        }
-
-        .truck-icon-container {
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-        }
-
-        .truck-icon {
-            fill: var(--text);
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
-        }
-
-        .point-label {
-            font-size: 10px;
-            font-family: var(--font-body);
-            font-weight: 700;
-            fill: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         header {
@@ -1922,11 +1916,12 @@
         /* --- Consolidated Media Queries --- */
 
         @media (pointer: fine) {
-            .cursor-dot,
-            .cursor-outline {
-            display: block;
+            .custom-cursor {
+                display: block;
             }
-
+            html, body, a, button, [role="button"] {
+                cursor: none;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1939,9 +1934,8 @@
             scroll-behavior: auto !important;
             }
 
-            .cursor-dot,
-            .cursor-outline {
-            display: none !important;
+            .custom-cursor {
+                display: none !important;
             }
 
         }
@@ -2470,13 +2464,13 @@
             height: 38px;
             }
 
-            .preloader-route {
-            width: 280px;
-            height: 180px;
+            .preloader-road-svg {
+                width: 320px;
+                height: 100px;
             }
 
-            .preloader-brand {
-            font-size: 1.75rem;
+            .brand-word {
+                font-size: 1.8rem;
             }
 
             .partner-marquee-wrap {
@@ -2514,8 +2508,41 @@
 <body>
 
     <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="custom-cursor" aria-hidden="true">
+        <svg class="cursor-rope" xmlns="http://www.w3.org/2000/svg">
+            <path class="cursor-rope-path" fill="none" />
+        </svg>
+        <!-- Badge 1: Truck -->
+        <div class="cursor-badge" data-index="0">
+            <svg class="cursor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 18H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h8m4 6h3a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-3M14 6v12M14 13h8" />
+                <circle cx="7.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+        </div>
+        <!-- Badge 2: Pin -->
+        <div class="cursor-badge" data-index="1">
+            <svg class="cursor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+            </svg>
+        </div>
+        <!-- Badge 3: Cargo -->
+        <div class="cursor-badge" data-index="2">
+            <svg class="cursor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+            </svg>
+        </div>
+        <!-- Badge 4: Shield -->
+        <div class="cursor-badge" data-index="3">
+            <svg class="cursor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 11 11 13 15 9" />
+            </svg>
+        </div>
+    </div>
 
     <!-- Scroll Progress -->
     <div class="scroll-progress"></div>
@@ -2542,45 +2569,83 @@
 
     <!-- Preloader -->
     <div class="preloader">
-        <div class="preloader-brand">
-            <span class="brand-text">DAYAL LOGISTICS</span>
-        </div>
+        <div class="preloader-content">
+            <svg class="preloader-road-svg" viewBox="0 0 500 150" aria-hidden="true">
+                <!-- Road Path (Solid rectangular block) -->
+                <rect id="preloaderRoad" x="10" y="80" width="480" height="24" rx="8" fill="var(--surface-2)" stroke="var(--border)" stroke-width="2" />
+                
+                <!-- Road Dashed Center Line -->
+                <line id="preloaderRoadLine" x1="20" y1="92" x2="480" y2="92" stroke="var(--gold)" stroke-width="2" stroke-dasharray="10, 10" />
 
-        <svg class="preloader-route" viewBox="0 0 400 300" aria-hidden="true">
-            <!-- Organic Road Path based on User Image -->
-            <path id="mainPath" class="route-path"
-                d="M50,60 L100,65 C120,65 140,60 150,60 L155,100 C155,120 165,150 180,180 L200,210 L220,230 L250,210 L280,225 L320,240 L350,230" />
+                <!-- Destination Pin -->
+                <g id="preloaderPin" transform="translate(440, 80)">
+                    <circle cx="0" cy="0" r="14" fill="var(--accent)" opacity="0.2" class="ping-circle" />
+                    <circle cx="0" cy="0" r="6" fill="var(--accent)" />
+                    <path d="M0,0 C-4,-4 -8,-8 -8,-14 C-8,-20 -4,-24 0,-24 C4,-24 8,-20 8,-14 C8,-8 4,-4 0,0 Z" fill="var(--accent)" />
+                    <circle cx="0" cy="-14" r="2.5" fill="#fff" />
+                </g>
 
-            <!-- Animated Active Road -->
-            <path id="activePath" class="route-path-active"
-                d="M50,60 L100,65 C120,65 140,60 150,60 L155,100 C155,120 165,150 180,180 L200,210 L220,230 L250,210 L280,225 L320,240 L350,230" />
+                <!-- Truck Group (Sideways look, cabin on the right, drives left-to-right) -->
+                <g id="preloaderTruck">
+                    <!-- Shadow under truck -->
+                    <rect x="-48" y="-4" width="80" height="8" rx="2" fill="rgba(0,0,0,0.35)" filter="blur(2px)" />
+                    
+                    <!-- Trailer (left-side cargo box) -->
+                    <rect x="-45" y="-32" width="60" height="26" rx="2" fill="var(--text)" />
+                    <!-- Trailer ribs/details -->
+                    <line x1="-35" y1="-32" x2="-35" y2="-6" stroke="var(--border)" stroke-width="1.5" />
+                    <line x1="-20" y1="-32" x2="-20" y2="-6" stroke="var(--border)" stroke-width="1.5" />
+                    <line x1="-5" y1="-32" x2="-5" y2="-6" stroke="var(--border)" stroke-width="1.5" />
+                    <line x1="10" y1="-32" x2="10" y2="-6" stroke="var(--border)" stroke-width="1.5" />
+                    
+                    <!-- Cab (driver cabin, right-side) -->
+                    <path d="M15,-20 L24,-20 C27,-20 29,-18 30,-15 L32,-6 L15,-6 Z" fill="var(--accent)" />
+                    <!-- Windshield -->
+                    <path d="M22,-18 L26,-18 L28,-11 L22,-11 Z" fill="rgba(255, 255, 255, 0.6)" />
+                    <!-- Cabin door line -->
+                    <line x1="19" y1="-20" x2="19" y2="-6" stroke="rgba(0,0,0,0.2)" stroke-width="1" />
+                    <!-- Front Bumper -->
+                    <rect x="30" y="-6" width="3" height="4" fill="#333" rx="0.5" />
+                    <!-- Connector under cabin/trailer -->
+                    <rect x="10" y="-10" width="6" height="4" fill="#555" />
 
-            <!-- Pin A -->
-            <g id="pinA" transform="translate(50, 60)">
-                <path class="map-pin" transform="scale(1.2)"
-                    d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
-                <text y="-25" class="pin-text">Us</text>
-            </g>
+                    <!-- Rotating Wheels (Centered at y = 0, diameter 10, sits right on road y = 80) -->
+                    <!-- Rear trailer wheels -->
+                    <g class="truck-wheel" transform="translate(-34, 0)">
+                        <circle cx="0" cy="0" r="5.5" fill="#1A1A1A" />
+                        <circle cx="0" cy="0" r="2.5" fill="#888" />
+                        <line x1="-2.5" y1="0" x2="2.5" y2="0" stroke="#fff" stroke-width="0.7" />
+                        <line x1="0" y1="-2.5" x2="0" y2="2.5" stroke="#fff" stroke-width="0.7" />
+                    </g>
+                    <g class="truck-wheel" transform="translate(-22, 0)">
+                        <circle cx="0" cy="0" r="5.5" fill="#1A1A1A" />
+                        <circle cx="0" cy="0" r="2.5" fill="#888" />
+                        <line x1="-2.5" y1="0" x2="2.5" y2="0" stroke="#fff" stroke-width="0.7" />
+                        <line x1="0" y1="-2.5" x2="0" y2="2.5" stroke="#fff" stroke-width="0.7" />
+                    </g>
+                    <!-- Mid trailer wheel -->
+                    <g class="truck-wheel" transform="translate(-6, 0)">
+                        <circle cx="0" cy="0" r="5.5" fill="#1A1A1A" />
+                        <circle cx="0" cy="0" r="2.5" fill="#888" />
+                        <line x1="-2.5" y1="0" x2="2.5" y2="0" stroke="#fff" stroke-width="0.7" />
+                        <line x1="0" y1="-2.5" x2="0" y2="2.5" stroke="#fff" stroke-width="0.7" />
+                    </g>
+                    <!-- Front cabin wheel -->
+                    <g class="truck-wheel" transform="translate(24, 0)">
+                        <circle cx="0" cy="0" r="5.5" fill="#1A1A1A" />
+                        <circle cx="0" cy="0" r="2.5" fill="#888" />
+                        <line x1="-2.5" y1="0" x2="2.5" y2="0" stroke="#fff" stroke-width="0.7" />
+                        <line x1="0" y1="-2.5" x2="0" y2="2.5" stroke="#fff" stroke-width="0.7" />
+                    </g>
+                </g>
+            </svg>
 
-            <!-- Pin B -->
-            <g id="pinB" transform="translate(350, 230)">
-                <path class="map-pin" style="fill: #EA4335;" transform="scale(1.2)"
-                    d="M0,0 C-8,-8 -15,-15 -15,-25 C-15,-35 -8,-42 0,-42 C8,-42 15,-35 15,-25 C15,-15 8,-8 0,0 Z" />
-                <text y="-25" class="pin-text">You</text>
-            </g>
-
-            <!-- Moving Truck Group -->
-            <g id="truckGroup" class="truck-icon-container">
-                <rect x="-14" y="-7" width="20" height="11" rx="1" fill="var(--accent)" />
-                <path d="M6,-7 L14,-2 L14,4 L6,4 Z" fill="var(--accent)" />
-                <path d="M7,-5 L12,-2 L12,2 L7,2 Z" fill="rgba(255,255,255,0.4)" />
-                <circle cx="-8" cy="6" r="3" fill="#000" />
-                <circle cx="8" cy="6" r="3" fill="#000" />
-            </g>
-        </svg>
-
-        <div class="preloader-bar-bg" style="display:none;">
-            <div class="preloader-bar"></div>
+            <div class="preloader-brand">
+                <div class="brand-text-wrapper">
+                    <span class="brand-word">DAYAL</span>
+                    <span class="brand-word highlight">LOGISTICS</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3544,52 +3609,73 @@
         const preloaderTl = gsap.timeline();
 
         // Set initial states
-        gsap.set("#activePath", { strokeDasharray: 800, strokeDashoffset: 800 });
-        gsap.set("#truckGroup", {
-            opacity: 0,
-            x: 50,
-            y: 60,
-            transformOrigin: "50% 50%"
-        });
-        gsap.set("#pinB", { scale: 0, transformOrigin: "bottom center" });
+        gsap.set(["#preloaderRoad", "#preloaderRoadLine"], { y: -500 });
+        gsap.set("#preloaderTruck", { x: 60, y: -400, scale: 2.5, opacity: 0, transformOrigin: "50% 5.5px" });
+        gsap.set("#preloaderPin", { scale: 0, opacity: 0, transformOrigin: "50% 100%" });
 
-        // Start Animation Immediately
-        preloaderTl.to('.preloader-brand span', {
-            y: '0%',
-            duration: 0.8,
-            ease: 'power3.out'
-        })
-            .to("#truckGroup", {
-                opacity: 1,
-                duration: 0.3
-            }, "-=0.2")
-            .to("#activePath", {
-                strokeDashoffset: 0,
-                duration: 3,
-                ease: "power1.inOut"
-            }, "pathAnim")
-            .to("#truckGroup", {
-                motionPath: {
-                    path: "#mainPath",
-                    autoRotate: true,
-                    align: "#mainPath",
-                    alignOrigin: [0.5, 0.5]
-                },
-                duration: 3,
-                ease: "power1.inOut"
-            }, "pathAnim")
-            .to("#pinB", {
+        // Start Animation Timeline
+        preloaderTl
+            // 1. Road drops from top
+            .to(["#preloaderRoad", "#preloaderRoadLine"], {
+                y: 0,
+                duration: 1.0,
+                ease: "bounce.out"
+            })
+            // 2. Truck drops onto the road from high above (landing at y = 74.5 to rest exactly on road at y = 80)
+            .to("#preloaderTruck", {
+                y: 74.5,
                 scale: 1,
+                opacity: 1,
+                duration: 0.8,
+                ease: "bounce.out"
+            }, "-=0.4")
+            // 2b. Squash & Stretch landing impact (relative to wheels touching road)
+            .to("#preloaderTruck", { scaleY: 0.82, scaleX: 1.18, duration: 0.1, ease: "power1.out" })
+            .to("#preloaderTruck", { scaleY: 1, scaleX: 1, duration: 0.15, ease: "power1.inOut" })
+            
+            // 3. DAYAL LOGISTICS name reveals
+            .to(".brand-word", {
+                y: "0%",
+                duration: 0.6,
+                stagger: 0.1,
+                ease: "power3.out"
+            }, "-=0.2")
+
+            // 4. Truck wiggles and drives down to destined location
+            // Subtle high-frequency wiggle for engine rumble (vertical rumble since it drives horizontally)
+            .to("#preloaderTruck", {
+                y: "+=0.8",
+                repeat: 20,
+                yoyo: true,
+                duration: 0.06,
+                ease: "sine.inOut"
+            }, "driveStart")
+            // Wheel rotation animation (runs during drive)
+            .to(".truck-wheel", {
+                rotation: "+=1080", // 3 full turns
+                duration: 1.6,
+                ease: "power2.inOut",
+                transformOrigin: "50% 50%"
+            }, "driveStart")
+            // Actual physical drive horizontally to absolute coordinate x = 410
+            .to("#preloaderTruck", {
+                x: 410, // Move to its destination (final absolute coordinates)
+                duration: 1.6,
+                ease: "power2.inOut"
+            }, "driveStart")
+
+            // 5. Destination Pin pops up as truck approaches
+            .to("#preloaderPin", {
+                scale: 1,
+                opacity: 1,
                 duration: 0.6,
                 ease: "back.out(1.7)"
-            }, "-=0.5")
-            .to("#pinB", {
-                y: "-=8",
-                repeat: -1,
-                yoyo: true,
-                duration: 0.7,
-                ease: "sine.inOut"
-            });
+            }, "driveStart+=0.9")
+            // Pulse wave ripple on arrival
+            .fromTo(".ping-circle", 
+                { scale: 0.5, opacity: 0.8 }, 
+                { scale: 2.2, opacity: 0, duration: 0.8, ease: "power2.out" }
+            , "driveStart+=1.5");
 
         // Track if window is loaded
         let isWindowLoaded = false;
@@ -3602,11 +3688,14 @@
             preloader.setAttribute('data-hidden', 'true');
 
             gsap.timeline()
+                // Minimal and smooth fade-out exit transition
                 .to('.preloader', {
-                    yPercent: -100,
-                    duration: 0.8,
-                    ease: 'power4.inOut',
-                    delay: 0.5
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        preloader.style.display = 'none';
+                    }
                 })
                 .fromTo('.hero-title .line', {
                     y: '100%'
@@ -3615,7 +3704,7 @@
                     duration: 1,
                     stagger: 0.15,
                     ease: 'power4.out'
-                }, '-=0.4')
+                }, '-=0.3')
                 .fromTo('.hero-elem', {
                     y: 30,
                     opacity: 0
@@ -3625,7 +3714,7 @@
                     duration: 0.8,
                     stagger: 0.1,
                     ease: 'power3.out'
-                }, '-=0.6')
+                }, '-=0.5')
                 .fromTo('.stat-card', {
                     x: 50,
                     opacity: 0
@@ -3634,14 +3723,14 @@
                     opacity: 1,
                     duration: 1,
                     ease: 'power3.out'
-                }, '-=0.6')
+                }, '-=0.5')
                 .fromTo('.brands-wrapper', {
                     y: '100%'
                 }, {
                     y: '0%',
                     duration: 0.8,
                     ease: 'power3.out'
-                }, '-=1');
+                }, '-=0.9');
         };
 
         // ENFORCED COMPLETION: The animation MUST finish before hiding
@@ -3651,8 +3740,8 @@
             }
         });
 
-        // SAFETY TIMEOUT: Force hide preloader if it takes more than 4 seconds
-        const preloaderTimeout = setTimeout(hidePreloader, 4000);
+        // SAFETY TIMEOUT: Force hide preloader if it takes more than 5 seconds
+        const preloaderTimeout = setTimeout(hidePreloader, 5000);
 
         window.addEventListener('load', () => {
             isWindowLoaded = true;
@@ -3686,68 +3775,137 @@
             }
         });
 
-        // Custom Cursor (GSAP optimized to prevent layout thrashing)
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
+        // Custom Cursor (Elastic trailing rope with rotating badges)
+        const customCursor = document.querySelector('.custom-cursor');
+        const ropePath = document.querySelector('.cursor-rope-path');
+        const badges = document.querySelectorAll('.cursor-badge');
 
-        if (window.matchMedia('(pointer: fine)').matches) {
-            // Set initial states via GSAP
-            gsap.set([cursorDot, cursorOutline], { xPercent: -50, yPercent: -50 });
+        if (customCursor && ropePath && badges.length > 0 && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const pointsCount = 8;
+            const points = Array.from({ length: pointsCount }, () => ({ x: window.innerWidth / 2, y: window.innerHeight / 2 }));
             
-            const setCursorX = gsap.quickSetter(cursorDot, "x", "px");
-            const setCursorY = gsap.quickSetter(cursorDot, "y", "px");
+            const badgeIndices = [0, 2, 4, 6];
+            const badgeRotations = [0, 0, 0, 0];
             
-            const pos = { x: 0, y: 0 };
-            const mouse = { x: 0, y: 0 };
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
             
+            let currentSpacing = 0;
+            let targetSpacing = 0;
+            let lastMoveTime = performance.now();
+            let hasMoved = false;
+
             window.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-                
-                // Position the dot instantly
-                setCursorX(mouse.x);
-                setCursorY(mouse.y);
-            });
-            
-            // Smoothly animate the outline position on the GSAP ticker
-            gsap.ticker.add(() => {
-                pos.x += (mouse.x - pos.x) * 0.15;
-                pos.y += (mouse.y - pos.y) * 0.15;
-                gsap.set(cursorOutline, { x: pos.x, y: pos.y });
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                lastMoveTime = performance.now();
+                if (!hasMoved) {
+                    hasMoved = true;
+                    customCursor.style.opacity = 1;
+                }
             });
 
-            // Hover effects for interactive elements using GSAP
-            const interactives = document.querySelectorAll('a, button, .play-btn');
+            document.documentElement.addEventListener('mouseenter', () => {
+                if (hasMoved) customCursor.style.opacity = 1;
+            });
+
+            document.documentElement.addEventListener('mouseleave', () => {
+                customCursor.style.opacity = 0;
+            });
+
+            // Hover interactions for clickable elements
+            const interactives = document.querySelectorAll('a, button, .play-btn, .partner-card, .pillar-card, .infra-card, .theme-toggle, .loc-card');
             interactives.forEach(el => {
                 el.addEventListener('mouseenter', () => {
-                    gsap.to(cursorOutline, {
-                        width: 60,
-                        height: 60,
-                        backgroundColor: 'var(--accent-soft)',
-                        duration: 0.2,
-                        ease: "power2.out"
-                    });
-                    gsap.to(cursorDot, {
-                        scale: 0.5,
-                        duration: 0.2,
-                        ease: "power2.out"
-                    });
+                    customCursor.classList.add('hovered');
                 });
                 el.addEventListener('mouseleave', () => {
-                    gsap.to(cursorOutline, {
-                        width: 40,
-                        height: 40,
-                        backgroundColor: 'transparent',
-                        duration: 0.2,
-                        ease: "power2.out"
-                    });
-                    gsap.to(cursorDot, {
-                        scale: 1,
-                        duration: 0.2,
-                        ease: "power2.out"
-                    });
+                    customCursor.classList.remove('hovered');
                 });
             });
+
+            function updateCursor() {
+                const now = performance.now();
+                const moving = now - lastMoveTime < 100;
+                
+                // Dynamic elastic spacing (stretches when moving, contracts to center when stationary)
+                targetSpacing = moving ? 12 : 0;
+                currentSpacing += (targetSpacing - currentSpacing) * 0.12;
+
+                // 1. Position Head node (Point 0) following the mouse with a slight lag
+                points[0].x += (mouseX - points[0].x) * 0.3;
+                points[0].y += (mouseY - points[0].y) * 0.3;
+
+                // 2. Trailing nodes physics logic
+                for (let i = 1; i < pointsCount; i++) {
+                    const prev = points[i - 1];
+                    const curr = points[i];
+                    
+                    const dx = curr.x - prev.x;
+                    const dy = curr.y - prev.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+
+                    // Solve for ideal position on trailing chain path
+                    const targetX = prev.x + (dx / dist) * currentSpacing;
+                    const targetY = prev.y + (dy / dist) * currentSpacing;
+
+                    // Apply lerp towards constraints
+                    curr.x += (targetX - curr.x) * 0.45;
+                    curr.y += (targetY - curr.y) * 0.45;
+                }
+
+                // 3. Render curved SVG path connecting trailing points
+                if (currentSpacing > 0.1) {
+                    let pathData = `M ${points[0].x} ${points[0].y}`;
+                    for (let i = 1; i < pointsCount - 1; i++) {
+                        const xc = (points[i].x + points[i + 1].x) / 2;
+                        const yc = (points[i].y + points[i + 1].y) / 2;
+                        pathData += ` Q ${points[i].x} ${points[i].y}, ${xc} ${yc}`;
+                    }
+                    pathData += ` L ${points[pointsCount - 1].x} ${points[pointsCount - 1].y}`;
+                    
+                    ropePath.setAttribute('d', pathData);
+                    ropePath.style.opacity = Math.min(0.6, (currentSpacing / 12) * 0.6);
+                } else {
+                    ropePath.style.opacity = 0;
+                }
+
+                // 4. Align, position, and rotate the 4 badges
+                badgeIndices.forEach((nodeIdx, badgeIdx) => {
+                    const badge = badges[badgeIdx];
+                    if (!badge) return;
+
+                    const curr = points[nodeIdx];
+                    let dx, dy;
+
+                    if (nodeIdx > 0) {
+                        const prev = points[nodeIdx - 1];
+                        dx = prev.x - curr.x;
+                        dy = prev.y - curr.y;
+                    } else {
+                        // For lead badge (node 0), calculate vector pointing from child node 1 to head node 0
+                        const next = points[1];
+                        dx = curr.x - next.x;
+                        dy = curr.y - next.y;
+                    }
+
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+
+                    if (moving && dist > 0.5) {
+                        const targetAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+                        badgeRotations[badgeIdx] += (targetAngle - badgeRotations[badgeIdx]) * 0.15;
+                    } else {
+                        // Slowly align back to 0 degrees when stationary
+                        badgeRotations[badgeIdx] += (0 - badgeRotations[badgeIdx]) * 0.08;
+                    }
+
+                    badge.style.transform = `translate3d(${curr.x}px, ${curr.y}px, 0) rotate(${badgeRotations[badgeIdx]}deg)`;
+                });
+
+                requestAnimationFrame(updateCursor);
+            }
+
+            requestAnimationFrame(updateCursor);
         }
 
         // Header Scroll & Progress Bar
@@ -3957,6 +4115,21 @@
         // Card stacking animation removed per user request
 
         // Local image assets used directly without remote fallback check
+
+        // Vercel Blur Scroll Effect for Partner Cards
+        gsap.from(".partner-card", {
+            y: 50,
+            opacity: 0,
+            filter: "blur(10px)",
+            stagger: 0.2,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".featured-partners",
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            }
+        });
 
         // Contact Form Submission Handler (Web3Forms Integration)
         const contactForm = document.getElementById('dayalContactForm');
